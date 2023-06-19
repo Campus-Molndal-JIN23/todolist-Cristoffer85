@@ -18,11 +18,19 @@
 ### Lösningsförslag innan uppgiften påbörjas
 
 #### Skisser (exempelvis)
-Påbörjar lite skisser idag på Miro (2023-06-19)
+Påbörjar lite skisser idag - Miro 2023-06-19
+![Namnlose.png](..%2F..%2F..%2FNamnlose.png)
 
 #### Hur du tänker försöka lösa uppgiften.(exempelvis)
+* Har laddat ned den färdiga uppgiftsrepo-mallen, med färdiga pom.xml-dependencies vilken Marcus gjort och tänker arbeta på den därifrån, och så att div. uppdateringar som görs t-o-f kommer att ses i realtid av både ansv. lärare just nu Marcus och Lars isånafall.
+
+Öppnade IntelliJ och created 'new project from version control' där jag kopierade in URL-adressen ifrån repot skapat på Github. Har den sedan i min egna IDE och tänker arbeta på den här.
+Tänker försöka börja bygga testklasserna imorgon, för att bygga den korrekt, bakvägen. 
+Bygger sedan huvudklasserna och skapar mongoConnection och sätter upp en basMongoDBFacade.
+
 
 #### Pseudokod.(exempelvis)
+Skall börja implementera den direkt i klasserna som kommentarer i varje metod då jag har skapat de.
 
 #### Diagram.(exempelvis)
 
