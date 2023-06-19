@@ -1,4 +1,4 @@
-# Ditt namn
+# Cristoffer Östberg
 
 ## Egna reflektioner
 
@@ -7,6 +7,11 @@
 ### Beskrivning av projektet
 
 ### Vad du har gjort
+
+
+
+
+
 
 ## Planering
 
@@ -21,6 +26,11 @@
 #### Diagram.(exempelvis)
 
 ### Jira/Trello/Github Project och projekthantering enligt Scrum/Kanban
+
+
+
+
+
 
 ## Arbetet och dess genomförande
 
