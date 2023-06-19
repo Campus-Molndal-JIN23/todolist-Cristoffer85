@@ -18,6 +18,7 @@
 ### Lösningsförslag innan uppgiften påbörjas
 
 #### Skisser (exempelvis)
+Påbörjar lite skisser idag på Miro (2023-06-19)
 
 #### Hur du tänker försöka lösa uppgiften.(exempelvis)
 
