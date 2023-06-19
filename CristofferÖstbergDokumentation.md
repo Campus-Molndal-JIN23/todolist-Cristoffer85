@@ -19,7 +19,7 @@
 
 #### Skisser (exempelvis)
 Påbörjar lite skisser idag - Miro 2023-06-19
-![MiroPlan 2023-06-19.png](MiroPlan%202023-06-19.png)
+![MiroPlan 2023-06-19.png](planningRes%2FMiroPlan%202023-06-19.png)
 
 #### Hur du tänker försöka lösa uppgiften.(exempelvis)
 * Har laddat ned den färdiga uppgiftsrepo-mallen, med färdiga pom.xml-dependencies vilken Marcus gjort och tänker arbeta på den därifrån, och så att div. uppdateringar som görs t-o-f kommer att ses i realtid av både ansv. lärare just nu Marcus och Lars isånafall.
