@@ -1,5 +1,7 @@
 package org.campusmolndal;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /*
  * ----------------------------------------------------------------------------
  * Copyright (c) 2019-2023 Marcus Medina, Campus Mölndal
@@ -7,21 +9,12 @@ package org.campusmolndal;
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  * ----------------------------------------------------------------------------
  */
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
 public class Main {
+
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);    //Shows only severe MongoDBDriver-logging errors
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
-
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
-        }
+        MongoDBFacade mongoDBFacade = new MongoDBFacade("TODO-DB", "Todo");
     }
 }
 
