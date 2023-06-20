@@ -7,15 +7,15 @@ import org.bson.Document;
 public class MongoDBFacade {
     Connection connection = new Connection();   //One instantiation of the Connection class
     MongoDatabase database;
-    MongoCollection<Document> collection;
+    static MongoCollection<Document> collection;
 
     public MongoDBFacade(String databaseName, String collectionName) {
         database = Connection.mongoClient.getDatabase(databaseName);
         collection = database.getCollection(collectionName);
     }
 
-    public void create(Document document) {
-        collection.insertOne(document);
+    public static void create(Document document) {
+        collection.insertOne(new Document());
     }
 
     public Document read(String key, Object value) {

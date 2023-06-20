@@ -39,7 +39,7 @@ public class MongoDBFacadeTest {
         Document document = new Document("key", "value");
 
         // Act
-        mongoDBFacade.create(document);
+        MongoDBFacade.create(document);
 
         // Assert
         verify(mockCollection).insertOne(document);

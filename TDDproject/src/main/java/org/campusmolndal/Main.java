@@ -10,11 +10,12 @@ import java.util.logging.Logger;
  * ----------------------------------------------------------------------------
  */
 public class Main {
-
     public static void main(String[] args) {
         Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);    //Shows only severe MongoDBDriver-logging errors
 
         MongoDBFacade mongoDBFacade = new MongoDBFacade("TODO-DB", "Todo");
+        Menu menu = new Menu();
+        menu.runMenu();
     }
 }
 
