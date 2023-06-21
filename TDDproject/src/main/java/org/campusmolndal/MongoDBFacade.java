@@ -7,7 +7,7 @@ import org.bson.Document;
 public class MongoDBFacade {
     private Connection connection; // Instantiate the Connection class
     private MongoDatabase database;
-    private static MongoCollection<Document> collection;
+    private MongoCollection<Document> collection;
 
     public MongoDBFacade(String databaseName, String collectionName) {
         connection = new Connection();
@@ -15,7 +15,7 @@ public class MongoDBFacade {
         collection = database.getCollection(collectionName);
     }
 
-    public static void create(int id, String text, boolean done, String assignedTo) {
+    public void create(int id, String text, boolean done, String assignedTo) {
         Document document = new Document("id", id)
                 .append("text", text)
                 .append("done", done)
@@ -24,15 +24,15 @@ public class MongoDBFacade {
         collection.insertOne(document);
     }
 
-    public Document read(String id) {
+    public Document read(int id) {
         return collection.find(new Document("id", id)).first();
     }
 
-    public void update(String id, Document updatedDocument) {
+    public void update(int id, Document updatedDocument) {
         collection.updateOne(new Document("id", id), new Document("$set", updatedDocument));
     }
 
-    public void delete(String id) {
+    public void delete(int id) {
         collection.deleteOne(new Document("id", id));
     }
 

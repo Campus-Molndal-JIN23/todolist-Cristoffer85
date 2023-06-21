@@ -6,9 +6,13 @@ import java.util.Scanner;
 
 public class Menu {
     private static Scanner scanner = new Scanner(System.in);
-    private static MongoDBFacade mongoDBFacade;
+    static MongoDBFacade mongoDBFacade;
+    static int counter = 0;
 
     public static void showMenu() {
+
+        mongoDBFacade = new MongoDBFacade("TODO", "Todos");
+
         int choice;
         do {
             System.out.println("Menu:");
@@ -36,9 +40,9 @@ public class Menu {
     }
 
     private static void createTask() {
-        System.out.print("Enter task ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+        counter++; // Increment the counter
+        int id = counter; // Use the current counter value as the ID
+
         System.out.print("Enter task text: ");
         String text = scanner.nextLine();
         System.out.print("Is the task done? (true/false): ");
@@ -55,7 +59,7 @@ public class Menu {
         System.out.print("Enter task ID: ");
         String id = scanner.nextLine();
 
-        Document task = mongoDBFacade.read(id);
+        Document task = mongoDBFacade.read(Integer.parseInt(id));
         if (task != null) {
             System.out.println("Task details:");
             System.out.println("ID: " + task.getInteger("id"));
@@ -71,7 +75,7 @@ public class Menu {
         System.out.print("Enter task ID: ");
         String id = scanner.nextLine();
 
-        Document task = mongoDBFacade.read(id);
+        Document task = mongoDBFacade.read(Integer.parseInt(id));
         if (task != null) {
             System.out.print("Enter updated task text: ");
             String text = scanner.nextLine();
@@ -85,7 +89,7 @@ public class Menu {
                     .append("done", done)
                     .append("assignedTo", assignedTo);
 
-            mongoDBFacade.update(id, updatedDocument);
+            mongoDBFacade.update(Integer.parseInt(id), updatedDocument);
             System.out.println("Task updated successfully.");
         } else {
             System.out.println("Task not found.");
@@ -96,7 +100,7 @@ public class Menu {
         System.out.print("Enter task ID: ");
         String id = scanner.nextLine();
 
-        mongoDBFacade.delete(id);
+        mongoDBFacade.delete(Integer.parseInt(id));
         System.out.println("Task deleted successfully.");
     }
 }
