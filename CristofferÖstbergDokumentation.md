@@ -35,14 +35,13 @@ Bygger sedan huvudklasserna och skapar mongoConnection och sätter upp en basMon
 
 
 #### Pseudokod.(exempelvis)
-Skall börja implementera den direkt i klasserna som kommentarer i varje metod då jag har skapat de.
+Skall börja implementera de i klasserna som kommentarer då jag har skapat de.
 
 #### Diagram.(exempelvis)
 
 ### Jira/Trello/Github Project och projekthantering enligt Scrum/Kanban
-
-
-
+Github Projects - 2023-06-21
+![Github Projects 2023-06-21.png](planningRes%2FGithub%20Projects%202023-06-21.png)
 
 
 
