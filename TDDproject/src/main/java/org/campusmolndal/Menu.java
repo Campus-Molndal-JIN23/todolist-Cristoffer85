@@ -2,10 +2,7 @@ package org.campusmolndal;
 
 import org.bson.Document;
 
-import java.util.Scanner;
-
 public class Menu {
-    private static Scanner scanner = new Scanner(System.in);
     static MongoDBFacade mongoDBFacade;
     static int counter = 0;
 
@@ -22,7 +19,7 @@ public class Menu {
             System.out.println("4. Delete Todo");
             System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
+            choice = ScanResource.scanner.nextInt();
             scanner.nextLine();
 
             switch (choice) {
