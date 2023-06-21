@@ -1,111 +1,80 @@
 package org.campusmolndal;
 
+import static org.mockito.Mockito.*;
+
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-public class MongoDBFacadeTest {
-
+class MongoDBFacadeTest {
     private MongoDBFacade mongoDBFacade;
-    private MongoDatabase mockDatabase;
-    private MongoCollection<Document> mockCollection;
+    private MongoDatabase database;
+    private MongoCollection<Document> collection;
 
     @BeforeEach
-    public void setUp() {
-        // Arrange
-        mockDatabase = Mockito.mock(MongoDatabase.class);
-        mockCollection = Mockito.mock(MongoCollection.class);
-
-        when(mockDatabase.getCollection(ArgumentMatchers.anyString())).thenReturn(mockCollection);
-
+    void setUp() {
+        //Arrange
+        database = mock(MongoDatabase.class);
+        collection = mock(MongoCollection.class);
+        //Act
+        when(database.getCollection(anyString())).thenReturn(collection);
+        //Assert
         mongoDBFacade = new MongoDBFacade("testDatabase", "testCollection");
-        mongoDBFacade.database = mockDatabase;
-        mongoDBFacade.collection = mockCollection;
     }
 
-    @Test
-    public void create_shouldInsertDocument() {
-        // Arrange
-        Document document = new Document("key", "value");
-
-        // Act
-        MongoDBFacade.create(document);
-
-        // Assert
-        verify(mockCollection).insertOne(document);
-    }
-
-    @Test
-    public void read_shouldFindDocument() {
-        // Arrange
-        String key = "key";
-        Object value = "value";
-        Document expectedDocument = new Document("key", "value");
-
-        // Create a mock for the MongoCursor<Document>
-        MongoCursor<Document> mockCursor = Mockito.mock(MongoCursor.class);
-
-        // Set up the behavior of the mock objects
-        when(mockCollection.find(ArgumentMatchers.<Document>any())).thenReturn((FindIterable<Document>) mockCursor);
-        when(mockCursor.hasNext()).thenReturn(true);
-        when(mockCursor.next()).thenReturn(expectedDocument);
-
-        // Act
-        Document result = mongoDBFacade.read(key, value);
-
-        // Assert
-        // Verify the expected interactions with the mock objects
-        verify(mockCollection).find(new Document(key, value));
-        verify(mockCursor).hasNext();
-        verify(mockCursor).next();
-
-        // Assert the result
-        assertEquals(expectedDocument, result);
-    }
-
-    @Test
-    public void update_shouldUpdateDocument() {
-        // Arrange
-        String key = "key";
-        Object value = "value";
-        Document updatedDocument = new Document("key", "updatedValue");
-
-        // Act
-        mongoDBFacade.update(key, value, updatedDocument);
-
-        // Assert
-        verify(mockCollection).updateOne(new Document(key, value), new Document("$set", updatedDocument));
-    }
-
-    @Test
-    public void delete_shouldDeleteDocument() {
-        // Arrange
-        String key = "key";
-        Object value = "value";
-
-        // Act
-        mongoDBFacade.delete(key, value);
-
-        // Assert
-        verify(mockCollection).deleteOne(new Document(key, value));
-    }
-
-    @Test
-    public void close_shouldCloseMongoClient() {
-        // Act
+    @AfterEach
+    void tearDown() {
         mongoDBFacade.close();
+    }
 
-        // Assert
-        verify(Connection.mongoClient).close();
+    @Test
+    void createShouldInsertOneDocument() {
+        //Arrange
+        Document document = new Document();
+        when(collection.insertOne(any(Document.class))).thenReturn(null);
+        //Act
+        mongoDBFacade.create(1, "Test", true, "John Doe");
+        //Assert
+        verify(collection).insertOne(document);
+    }
+
+    @Test
+    void readShouldFindOneDocument() {
+        //Arrange
+        Document document = new Document();
+        FindIterable<Document> iterable = mock(FindIterable.class);
+
+        when(collection.find(any(Document.class))).thenReturn(iterable);
+        when(iterable.first()).thenReturn(document);
+        //Act
+        mongoDBFacade.read("1");
+        //Assert
+        verify(collection).find(new Document("id", "1"));
+        verify(iterable).first();
+    }
+
+    @Test
+    void updateShouldUpdateOneDocument() {
+        //Arrange
+        Document updatedDocument = new Document();
+        when(collection.updateOne(any(Document.class), any(Document.class))).thenReturn(null);
+        //Act
+        mongoDBFacade.update("1", updatedDocument);
+        //Assert
+        verify(collection).updateOne(new Document("id", "1"), new Document("$set", updatedDocument));
+    }
+
+    @Test
+    void deleteShouldDeleteOneDocument() {
+        //Arrange
+        when(collection.deleteOne(any(Document.class))).thenReturn(null);
+        //Act
+        mongoDBFacade.delete("1");
+        //Assert
+        verify(collection).deleteOne(new Document("id", "1"));
     }
 }

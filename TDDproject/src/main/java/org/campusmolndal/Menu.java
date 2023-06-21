@@ -1,44 +1,102 @@
 package org.campusmolndal;
 
 import org.bson.Document;
+
 import java.util.Scanner;
 
 public class Menu {
+    private static Scanner scanner = new Scanner(System.in);
+    private static MongoDBFacade mongoDBFacade;
 
-    public void runMenu() {
-        Scanner scanner = new Scanner(System.in);
+    public static void showMenu() {
         int choice;
         do {
-            System.out.println("1. Lägg till Kund");
-            System.out.println("2. Uppdatera Kund");
-            System.out.println("3. Radera Kund");
-            System.out.println("4. Visa alla Kunder");
-            System.out.println("----------------");
-            System.out.println("5. Lägg till Anställd");
-            System.out.println("6. Uppdatera Anställd");
-            System.out.println("7. Radera Anställd");
-            System.out.println("8. Visa alla Anställda");
-            System.out.println("----------------");
-            System.out.println("9. Avsluta");
-            System.out.print("Gör ditt val: ");
+            System.out.println("Menu:");
+            System.out.println("1. Create Todo");
+            System.out.println("2. Read Todos");
+            System.out.println("3. Update Todo");
+            System.out.println("4. Delete Todo");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
             scanner.nextLine();
 
             switch (choice) {
-                case 1 -> TODO.addTodo();
-                /*case 2 -> DBCRUD.updateCustomer();
-                case 3 -> DBCRUD.deleteCustomer();
-                case 4 -> DBCRUD.printAllCustomers();
-                case 5 -> DBCRUD.addEmployee();
-                case 6 -> DBCRUD.updateEmployee();
-                case 7 -> DBCRUD.deleteEmployee();
-                case 8 -> DBCRUD.printAllEmployees();*/
-                case 9 -> System.out.println("Hejdå!");
-                default -> System.out.println("Det är tyvärr inte ett giltigt val.");
+                case 1 -> createTask();
+                case 2 -> readTask();
+                case 3 -> updateTask();
+                case 4 -> deleteTask();
+                case 5 -> {
+                    mongoDBFacade.close();
+                    System.out.println("Exiting...");
+                }
+                default -> System.out.println("Invalid choice. Please try again.");
             }
-            System.out.println();
-        } while (choice != 9);
-        scanner.close();
-        Connection.mongoClient.close();     // Skickar till klassen anslutning att den skall stänga anslutningen till databasen, om valet är 9.
+        } while (choice != 5);
+    }
+
+    private static void createTask() {
+        System.out.print("Enter task ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter task text: ");
+        String text = scanner.nextLine();
+        System.out.print("Is the task done? (true/false): ");
+        boolean done = scanner.nextBoolean();
+        scanner.nextLine();
+        System.out.print("Enter assigned to: ");
+        String assignedTo = scanner.nextLine();
+
+        mongoDBFacade.create(id, text, done, assignedTo);
+        System.out.println("Task created successfully.");
+    }
+
+    private static void readTask() {
+        System.out.print("Enter task ID: ");
+        String id = scanner.nextLine();
+
+        Document task = mongoDBFacade.read(id);
+        if (task != null) {
+            System.out.println("Task details:");
+            System.out.println("ID: " + task.getInteger("id"));
+            System.out.println("Text: " + task.getString("text"));
+            System.out.println("Done: " + task.getBoolean("done"));
+            System.out.println("Assigned to: " + task.getString("assignedTo"));
+        } else {
+            System.out.println("Task not found.");
+        }
+    }
+
+    private static void updateTask() {
+        System.out.print("Enter task ID: ");
+        String id = scanner.nextLine();
+
+        Document task = mongoDBFacade.read(id);
+        if (task != null) {
+            System.out.print("Enter updated task text: ");
+            String text = scanner.nextLine();
+            System.out.print("Is the task done? (true/false): ");
+            boolean done = scanner.nextBoolean();
+            scanner.nextLine();
+            System.out.print("Enter updated assigned to: ");
+            String assignedTo = scanner.nextLine();
+
+            Document updatedDocument = new Document("text", text)
+                    .append("done", done)
+                    .append("assignedTo", assignedTo);
+
+            mongoDBFacade.update(id, updatedDocument);
+            System.out.println("Task updated successfully.");
+        } else {
+            System.out.println("Task not found.");
+        }
+    }
+
+    private static void deleteTask() {
+        System.out.print("Enter task ID: ");
+        String id = scanner.nextLine();
+
+        mongoDBFacade.delete(id);
+        System.out.println("Task deleted successfully.");
     }
 }

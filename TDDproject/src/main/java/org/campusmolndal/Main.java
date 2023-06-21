@@ -15,7 +15,7 @@ public class Main {
 
         MongoDBFacade mongoDBFacade = new MongoDBFacade("TODO-DB", "Todo");
         Menu menu = new Menu();
-        menu.runMenu();
+        menu.showMenu();
     }
 }
 
