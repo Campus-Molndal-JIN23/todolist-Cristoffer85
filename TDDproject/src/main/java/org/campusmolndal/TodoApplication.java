@@ -26,63 +26,126 @@ public class TodoApplication {
         boolean exit = false;
 
         while (!exit) {
-            System.out.println("\nTODO APPLICATION");
-            System.out.println("----------------");
-            System.out.println("1. Create new User");
-            System.out.println("2. Read User");
-            System.out.println("3. Update User");
-            System.out.println("4. Delete User");
-            System.out.println("----------------");
-            System.out.println("5. Create Todo");
-            System.out.println("6. Read Single Todo");
-            System.out.println("7. Read All Todos");
-            System.out.println("8. Update Todo");
-            System.out.println("9. Delete Todo");
-            System.out.println("----------------");
-            System.out.println("0. Exit");
-            System.out.println("----------------");
+            System.out.println(
+
+             "\n                TODO APPLICATION"
+            +"\n----------------------------------------------------"
+            +"\n1. Create new User      |        5. Create Todo"
+            +"\n2. Read User            |        6. Read Single Todo"
+            +"\n3. Update User          |        7. Read All Todos"
+            +"\n4. Delete User          |        8. Update Todo"
+            +"\n                        |        9. Delete Todo"
+            +"\n----------------------------------------------------"
+            +"\n                                 0. Exit");
+
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
 
             switch (choice) {
-                case 1:
-                    createUser();
-                    break;
-                case 2:
-                    readUser();
-                    break;
-                case 3:
-                    updateUser();
-                    break;
-                case 4:
-                    deleteUser();
-                    break;
-                case 5:
-                    createTodo();
-                    break;
-                case 6:
-                    readOneTodo();
-                    break;
-                case 7:
-                    readAllTodos();
-                    break;
-                case 8:
-                    updateTodo();
-                    break;
-                case 9:
-                    deleteTodo();
-                    break;
-                case 0:
-                    exit = true;
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                case 1 -> createUser();
+                case 2 -> readUser();
+                case 3 -> updateUser();
+                case 4 -> deleteUser();
+                case 5 -> createTodo();
+                case 6 -> readOneTodo();
+                case 7 -> readAllTodos();
+                case 8 -> updateTodo();
+                case 9 -> deleteTodo();
+                case 0 -> exit = true;
+                default -> System.out.println("Invalid choice. Please try again.");
             }
         }
         scanner.close();
     }
+
+    //############################### USERS ########################################
+
+    private void createUser() {
+        System.out.print("Enter the name of the User: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter the age of the User: ");
+        int age = scanner.nextInt();
+        scanner.nextLine();
+
+        int userId = generateUniqueId(userCollection);
+        Document userDocument = new Document("_id", userId)
+                .append("name", name)
+                .append("age", age)
+                .append("todos", new ArrayList<Integer>());
+
+        userCollection.insertOne(userDocument);
+
+        System.out.println("User created successfully with ID " + userId);
+    }
+
+    private void readUser() {
+        System.out.print("Enter the ID of the User: ");
+        int userId = scanner.nextInt();
+        scanner.nextLine();
+
+        Document userFilter = new Document("_id", userId);
+        Document userDocument = userCollection.find(userFilter).first();
+        if (userDocument == null) {
+            System.out.println("User not found with ID " + userId);
+            return;
+        }
+
+        List<Integer> todoIds = userDocument.getList("todos", Integer.class);
+        List<Document> todoDocuments = getTodoDocuments(todoIds);
+
+        System.out.println("User ID: " + userId);
+        System.out.println("Name: " + userDocument.getString("name"));
+        System.out.println("Age: " + userDocument.getInteger("age"));
+        System.out.println("Todos:");
+
+        if (todoDocuments.isEmpty()) {
+            System.out.println("No Todos assigned to this user.");
+        } else {
+            for (Document todoDocument : todoDocuments) {
+                System.out.println("Todo ID: " + todoDocument.getInteger("_id"));
+                System.out.println("Text: " + todoDocument.getString("text"));
+                System.out.println("Done: " + todoDocument.getBoolean("done"));
+                System.out.println();
+            }
+        }
+    }
+
+    private void updateUser() {
+        System.out.print("Enter the ID of the User: ");
+        int userId = scanner.nextInt();
+        scanner.nextLine();
+
+        Document userFilter = new Document("_id", userId);
+        Document userDocument = userCollection.find(userFilter).first();
+        if (userDocument == null) {
+            System.out.println("User not found with ID " + userId);
+            return;
+        }
+
+        System.out.print("Enter the updated name of the User: ");
+        String updatedName = scanner.nextLine();
+
+        Document updateDocument = new Document("$set", new Document("name", updatedName));
+        userCollection.updateOne(userFilter, updateDocument);
+
+        System.out.println("User updated successfully.");
+    }
+
+    private void deleteUser() {
+        System.out.print("Enter the ID of the User: ");
+        int userId = scanner.nextInt();
+        scanner.nextLine();
+
+        Document userFilter = new Document("_id", userId);
+        userCollection.deleteOne(userFilter);
+
+        System.out.println("User deleted successfully.");
+    }
+
+    //############################### TODOS ########################################
 
     private void createTodo() {
         System.out.print("Enter the text of the Todo: ");
@@ -110,8 +173,6 @@ public class TodoApplication {
 
         System.out.println("Todo created successfully with ID " + todoId);
     }
-
-
 
     private void readOneTodo() {
         System.out.print("Enter the Todo ID: ");
@@ -165,7 +226,6 @@ public class TodoApplication {
             } else {
                 System.out.println("Assigned To: No assigned users");
             }
-
             System.out.println();
         }
     }
@@ -202,92 +262,7 @@ public class TodoApplication {
         System.out.println("Todo deleted successfully.");
     }
 
-    private void createUser() {
-        System.out.print("Enter the name of the User: ");
-        String name = scanner.nextLine();
-
-        System.out.print("Enter the age of the User: ");
-        int age = scanner.nextInt();
-        scanner.nextLine();
-
-        int userId = generateUniqueId(userCollection);
-        Document userDocument = new Document("_id", userId)
-                .append("name", name)
-                .append("age", age)
-                .append("todos", new ArrayList<Integer>());
-
-        userCollection.insertOne(userDocument);
-
-        System.out.println("User created successfully with ID " + userId);
-    }
-
-    private void readUser() {
-        System.out.print("Enter the ID of the User: ");
-        int userId = scanner.nextInt();
-        scanner.nextLine(); // consume the newline character
-
-        Document userFilter = new Document("_id", userId);
-        Document userDocument = userCollection.find(userFilter).first();
-        if (userDocument == null) {
-            System.out.println("User not found with ID " + userId);
-            return;
-        }
-
-        List<Integer> todoIds = userDocument.getList("todos", Integer.class);
-        List<Document> todoDocuments = getTodoDocuments(todoIds);
-
-        System.out.println("User ID: " + userId);
-        System.out.println("Name: " + userDocument.getString("name"));
-        System.out.println("Age: " + userDocument.getInteger("age"));
-        System.out.println("Todos:");
-
-        if (todoDocuments.isEmpty()) {
-            System.out.println("No Todos assigned to this user.");
-        } else {
-            for (Document todoDocument : todoDocuments) {
-                System.out.println("Todo ID: " + todoDocument.getInteger("_id"));
-                System.out.println("Text: " + todoDocument.getString("text"));
-                System.out.println("Done: " + todoDocument.getBoolean("done"));
-                System.out.println();
-            }
-        }
-    }
-
-
-    private void updateUser() {
-        System.out.print("Enter the ID of the User: ");
-        int userId = scanner.nextInt();
-        scanner.nextLine();
-
-        Document userFilter = new Document("_id", userId);
-        Document userDocument = userCollection.find(userFilter).first();
-        if (userDocument == null) {
-            System.out.println("User not found with ID " + userId);
-            return;
-        }
-
-        System.out.print("Enter the updated name of the User: ");
-        String updatedName = scanner.nextLine();
-
-        Document updateDocument = new Document("$set", new Document("name", updatedName));
-        userCollection.updateOne(userFilter, updateDocument);
-
-        System.out.println("User updated successfully.");
-    }
-
-    private void deleteUser() {
-        System.out.print("Enter the ID of the User: ");
-        int userId = scanner.nextInt();
-        scanner.nextLine();
-
-        Document userFilter = new Document("_id", userId);
-        userCollection.deleteOne(userFilter);
-
-        System.out.println("User deleted successfully.");
-    }
-
-
-    //####################################################################################
+    //############################### MISC ########################################
 
     private int generateUniqueId(MongoCollection<Document> collection) {
         BasicDBObject sortQuery = new BasicDBObject("_id", -1);
@@ -310,7 +285,6 @@ public class TodoApplication {
                 todoDocuments.add(todoDocument);
             }
         }
-
         return todoDocuments;
     }
 
@@ -329,7 +303,6 @@ public class TodoApplication {
                 users.add(user);
             }
         }
-
         return users;
     }
 }
