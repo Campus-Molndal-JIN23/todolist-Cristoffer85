@@ -4,18 +4,14 @@ public class Todo {
     private int id;
     private String text;
     private boolean done;
-    private int assignedTo;
+    private User assignedTo;
 
-    public Todo() {
-    }
-
-    public Todo(int id, String text, boolean done, int assignedTo) {
+    public Todo(int id, String text) {
         this.id = id;
         this.text = text;
-        this.done = done;
-        this.assignedTo = assignedTo;
+        this.done = false;
+        this.assignedTo = null;
     }
-
 
     public int getId() {
         return id;
@@ -41,11 +37,8 @@ public class Todo {
         this.done = done;
     }
 
-    public int getAssignedTo() {
-        return assignedTo;
-    }
-
-    public void setAssignedTo(int assignedTo) {
-        this.assignedTo = assignedTo;
+    public void assignToUser(User user) {
+        this.assignedTo = user;
+        user.addTodoToUser(this);
     }
 }

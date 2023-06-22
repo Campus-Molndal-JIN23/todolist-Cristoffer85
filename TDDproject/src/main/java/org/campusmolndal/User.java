@@ -7,17 +7,13 @@ public class User {
     private int id;
     private String name;
     private int age;
-    private List<Integer> todos;
-
-    public User() {
-        todos = new ArrayList<>();
-    }
+    private List<Todo> todos;
 
     public User(int id, String name, int age) {
         this.id = id;
         this.name = name;
         this.age = age;
-        todos = new ArrayList<>();
+        this.todos = new ArrayList<>();
     }
 
 
@@ -45,11 +41,11 @@ public class User {
         this.age = age;
     }
 
-    public List<Integer> getTodos() {
+    public List<Todo> getTodos() {
         return todos;
     }
 
-    public void setTodos(List<Integer> todos) {
-        this.todos = todos;
+    public void addTodoToUser(Todo todo) {
+        this.todos.add(todo);
     }
 }

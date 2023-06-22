@@ -26,6 +26,14 @@ Dag 2 Miro - 2023-06-20
 
 Dag 3 Miro - 2023-06-21
 ![MiroPlan 2023-06-21.png](planningRes%2FMiroPlan%202023-06-21.png)
+
+Dag 4 Miro - 2023-06-22 
+
+(F*- it, blev lite sur idag så skrotade hela grundprogrammet+iden) 
+
+började om med Getters+Setters då jag ändå ville testa+lära mig mer om det och använda det, + implementera lite snyggare kod (Interfaces kanske kommer senare, med...? Då jag gärna vill ha med det+lära mig mer.  
+* Jag vill lära mig/bli konstant bättre hur man skriver riktigt snygg kod någon dag)
+![MiroPlan 2023-06-22.png](planningRes%2FMiroPlan%202023-06-22.png)
 #### Hur du tänker försöka lösa uppgiften.(exempelvis)
 * Har laddat ned den färdiga uppgiftsrepo-mallen, med färdiga pom.xml-dependencies vilken Marcus gjort och tänker arbeta på den därifrån, och så att div. uppdateringar som görs t-o-f kommer att ses i realtid av både ansv. lärare just nu Marcus och Lars isånafall.
 
