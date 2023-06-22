@@ -3,6 +3,7 @@ package org.campusmolndal;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +34,12 @@ public class TodoApplication {
             System.out.println("4. Delete User");
             System.out.println("----------------");
             System.out.println("5. Create Todo");
-            System.out.println("6. Read Todo");
-            System.out.println("7. Update Todo");
-            System.out.println("8. Delete Todo");
+            System.out.println("6. Read Single Todo");
+            System.out.println("7. Read All Todos");
+            System.out.println("8. Update Todo");
+            System.out.println("9. Delete Todo");
             System.out.println("----------------");
-            System.out.println("9. Exit");
+            System.out.println("0. Exit");
             System.out.println("----------------");
             System.out.print("Enter your choice: ");
 
@@ -61,22 +63,24 @@ public class TodoApplication {
                     createTodo();
                     break;
                 case 6:
-                    readTodo();
+                    readOneTodo();
                     break;
                 case 7:
-                    updateTodo();
+                    readAllTodos();
                     break;
                 case 8:
-                    deleteTodo();
+                    updateTodo();
                     break;
                 case 9:
+                    deleteTodo();
+                    break;
+                case 0:
                     exit = true;
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-
         scanner.close();
     }
 
@@ -84,52 +88,70 @@ public class TodoApplication {
         System.out.print("Enter the text of the Todo: ");
         String text = scanner.nextLine();
 
-        System.out.print("Enter the ID of the User to assign the Todo: ");
-        int userId = scanner.nextInt();
-        scanner.nextLine();
-
-        Document userFilter = new Document("_id", userId);
-        Document userDocument = userCollection.find(userFilter).first();
-
-        if (userDocument == null) {
-            System.out.println("User not found with ID " + userId);
-            return;
+        System.out.print("Enter the ID(s) of the User(s) to assign the Todo (comma-separated): ");
+        String userIdsInput = scanner.nextLine();
+        List<Integer> userIds = new ArrayList<>();
+        for (String userId : userIdsInput.split(",")) {
+            userIds.add(Integer.parseInt(userId.trim()));
         }
 
         int todoId = generateUniqueId(todoCollection);
         Document todoDocument = new Document("_id", todoId)
                 .append("text", text)
-                .append("done", false)
-                .append("assignedTo", userId);
+                .append("done", false);
 
         todoCollection.insertOne(todoDocument);
+
+        for (int userId : userIds) {
+            Document userFilter = new Document("_id", userId);
+            Document userUpdate = new Document("$push", new Document("todos", todoId));
+            userCollection.updateOne(userFilter, userUpdate);
+        }
 
         System.out.println("Todo created successfully with ID " + todoId);
     }
 
-    private void readTodo() {
-        System.out.print("Enter the ID of the Todo: ");
+
+
+    private void readOneTodo() {
+        System.out.print("Enter the Todo ID: ");
         int todoId = scanner.nextInt();
-        scanner.nextLine();
 
         Document todoFilter = new Document("_id", todoId);
         Document todoDocument = todoCollection.find(todoFilter).first();
-        if (todoDocument == null) {
-            System.out.println("Todo not found with ID " + todoId);
-            return;
+
+        if (todoDocument != null) {
+            System.out.println("Todo ID: " + todoDocument.getInteger("_id"));
+            System.out.println("Text: " + todoDocument.getString("text"));
+            System.out.println("Done: " + todoDocument.getBoolean("done"));
+
+            List<ObjectId> assignedToIds = todoDocument.getList("assignedTo", ObjectId.class);
+            List<Integer> assignedToUserIds = getUserIds(assignedToIds);
+            System.out.println("Assigned To: " + assignedToUserIds);
+        } else {
+            System.out.println("Todo not found.");
         }
-
-        int assignedTo = todoDocument.getInteger("assignedTo");
-        Document userFilter = new Document("_id", assignedTo);
-        Document userDocument = userCollection.find(userFilter).first();
-
-        System.out.println("Todo ID: " + todoId);
-        System.out.println("Text: " + todoDocument.getString("text"));
-        System.out.println("Done: " + todoDocument.getBoolean("done"));
-        System.out.println("Assigned To: " + userDocument.getString("name"));
     }
 
-    private void updateTodo() {
+
+    private void readAllTodos() {
+            System.out.println("All Todos:");
+            List<Document> todoDocuments = todoCollection.find().into(new ArrayList<>());
+
+            for (Document todoDocument : todoDocuments) {
+                System.out.println("Todo ID: " + todoDocument.getInteger("_id"));
+                System.out.println("Text: " + todoDocument.getString("text"));
+                System.out.println("Done: " + todoDocument.getBoolean("done"));
+
+                List<ObjectId> assignedToIds = todoDocument.getList("assignedTo", ObjectId.class);
+                List<Integer> assignedToUserIds = getUserIds(assignedToIds);
+                System.out.println("Assigned To: " + assignedToUserIds);
+
+                System.out.println();
+            }
+        }
+
+        private void updateTodo() {
         System.out.print("Enter the ID of the Todo: ");
         int todoId = scanner.nextInt();
         scanner.nextLine();
@@ -183,7 +205,7 @@ public class TodoApplication {
     private void readUser() {
         System.out.print("Enter the ID of the User: ");
         int userId = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // consume the newline character
 
         Document userFilter = new Document("_id", userId);
         Document userDocument = userCollection.find(userFilter).first();
@@ -200,12 +222,18 @@ public class TodoApplication {
         System.out.println("Age: " + userDocument.getInteger("age"));
         System.out.println("Todos:");
 
-        for (Document todoDocument : todoDocuments) {
-            System.out.println("Todo ID: " + todoDocument.getInteger("_id"));
-            System.out.println("Text: " + todoDocument.getString("text"));
-            System.out.println("Done: " + todoDocument.getBoolean("done"));
+        if (todoDocuments.isEmpty()) {
+            System.out.println("No Todos assigned to this user.");
+        } else {
+            for (Document todoDocument : todoDocuments) {
+                System.out.println("Todo ID: " + todoDocument.getInteger("_id"));
+                System.out.println("Text: " + todoDocument.getString("text"));
+                System.out.println("Done: " + todoDocument.getBoolean("done"));
+                System.out.println();
+            }
         }
     }
+
 
     private void updateUser() {
         System.out.print("Enter the ID of the User: ");
@@ -239,6 +267,9 @@ public class TodoApplication {
         System.out.println("User deleted successfully.");
     }
 
+
+    //####################################################################################
+
     private int generateUniqueId(MongoCollection<Document> collection) {
         BasicDBObject sortQuery = new BasicDBObject("_id", -1);
         Document lastDocument = collection.find().sort(sortQuery).limit(1).first();
@@ -262,5 +293,19 @@ public class TodoApplication {
         }
 
         return todoDocuments;
+    }
+
+    private List<Integer> getUserIds(List<ObjectId> userObjectIds) {
+        List<Integer> userIds = new ArrayList<>();
+
+        for (ObjectId userObjectId : userObjectIds) {
+            Document userFilter = new Document("_id", userObjectId);
+            Document userDocument = userCollection.find(userFilter).first();
+            if (userDocument != null) {
+                userIds.add(userDocument.getInteger("_id"));
+            }
+        }
+
+        return userIds;
     }
 }
