@@ -126,30 +126,49 @@ public class TodoApplication {
             System.out.println("Done: " + todoDocument.getBoolean("done"));
 
             List<ObjectId> assignedToIds = todoDocument.getList("assignedTo", ObjectId.class);
-            List<Integer> assignedToUserIds = getUserIds(assignedToIds);
-            System.out.println("Assigned To: " + assignedToUserIds);
+            if (assignedToIds != null && !assignedToIds.isEmpty()) {
+                List<User> assignedUsers = getUsersByIds(assignedToIds);
+                System.out.println("Assigned To:");
+                for (User user : assignedUsers) {
+                    System.out.println("User ID: " + user.getId());
+                    System.out.println("User Name: " + user.getName());
+                    System.out.println("User Age: " + user.getAge());
+                    System.out.println();
+                }
+            } else {
+                System.out.println("Assigned To: No assigned users");
+            }
         } else {
             System.out.println("Todo not found.");
         }
     }
 
-
     private void readAllTodos() {
-            System.out.println("All Todos:");
-            List<Document> todoDocuments = todoCollection.find().into(new ArrayList<>());
+        System.out.println("All Todos:");
+        List<Document> todoDocuments = todoCollection.find().into(new ArrayList<>());
 
-            for (Document todoDocument : todoDocuments) {
-                System.out.println("Todo ID: " + todoDocument.getInteger("_id"));
-                System.out.println("Text: " + todoDocument.getString("text"));
-                System.out.println("Done: " + todoDocument.getBoolean("done"));
+        for (Document todoDocument : todoDocuments) {
+            System.out.println("Todo ID: " + todoDocument.getInteger("_id"));
+            System.out.println("Text: " + todoDocument.getString("text"));
+            System.out.println("Done: " + todoDocument.getBoolean("done"));
 
-                List<ObjectId> assignedToIds = todoDocument.getList("assignedTo", ObjectId.class);
-                List<Integer> assignedToUserIds = getUserIds(assignedToIds);
-                System.out.println("Assigned To: " + assignedToUserIds);
-
-                System.out.println();
+            List<ObjectId> assignedToIds = todoDocument.getList("assignedTo", ObjectId.class);
+            if (assignedToIds != null && !assignedToIds.isEmpty()) {
+                List<User> assignedUsers = getUsersByIds(assignedToIds);
+                System.out.println("Assigned To:");
+                for (User user : assignedUsers) {
+                    System.out.println("User ID: " + user.getId());
+                    System.out.println("User Name: " + user.getName());
+                    System.out.println("User Age: " + user.getAge());
+                    System.out.println();
+                }
+            } else {
+                System.out.println("Assigned To: No assigned users");
             }
+
+            System.out.println();
         }
+    }
 
         private void updateTodo() {
         System.out.print("Enter the ID of the Todo: ");
@@ -295,17 +314,22 @@ public class TodoApplication {
         return todoDocuments;
     }
 
-    private List<Integer> getUserIds(List<ObjectId> userObjectIds) {
-        List<Integer> userIds = new ArrayList<>();
+    private List<User> getUsersByIds(List<ObjectId> userIds) {
+        List<User> users = new ArrayList<>();
 
-        for (ObjectId userObjectId : userObjectIds) {
-            Document userFilter = new Document("_id", userObjectId);
+        for (ObjectId userId : userIds) {
+            Document userFilter = new Document("_id", userId);
             Document userDocument = userCollection.find(userFilter).first();
             if (userDocument != null) {
-                userIds.add(userDocument.getInteger("_id"));
+                User user = new User(
+                        userDocument.getInteger("_id"),
+                        userDocument.getString("name"),
+                        userDocument.getInteger("age")
+                );
+                users.add(user);
             }
         }
 
-        return userIds;
+        return users;
     }
 }
