@@ -51,6 +51,9 @@ Skall börja implementera de i klasserna som kommentarer då jag har skapat de.
 Github Projects - 2023-06-21
 ![Github Projects 2023-06-21.png](planningRes%2FGithub%20Projects%202023-06-21.png)
 
+Github Projects - 2023-06-22 (New idea implemented+tested = Got f*-ing angry at the last one, scrapped it and tried a new more harmonical one)
+![Github Projects 2023-06-22.png](planningRes%2FGithub%20Projects%202023-06-22.png)
+
 
 
 ## Arbetet och dess genomförande

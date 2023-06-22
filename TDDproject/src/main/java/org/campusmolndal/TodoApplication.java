@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TodoApplication {
-    private Connection connection;
-    private MongoCollection<Document> todoCollection;
-    private MongoCollection<Document> userCollection;
-    private Scanner scanner;
+    Connection connection;
+    MongoCollection<Document> todoCollection;
+    MongoCollection<Document> userCollection;
+    Scanner scanner;
 
     public TodoApplication() {
         connection = new Connection();
