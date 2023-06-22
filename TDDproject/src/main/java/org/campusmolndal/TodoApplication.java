@@ -28,7 +28,7 @@ public class TodoApplication {
         while (!exit) {
             System.out.println(
 
-             "\n                TODO APPLICATION"
+             "\n             ## TODO APPLICATION ##"
             +"\n----------------------------------------------------"
             +"\n1. Create new User      |        5. Create Todo"
             +"\n2. Read User            |        6. Read Single Todo"
