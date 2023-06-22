@@ -4,8 +4,12 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class MongoDBFacade {
-    private Connection connection; // Instantiate the Connection class
+    Connection connection;
     private MongoDatabase database;
     private MongoCollection<Document> collection;
 
@@ -24,9 +28,22 @@ public class MongoDBFacade {
         collection.insertOne(document);
     }
 
-    public Document read(int id) {
-        return collection.find(new Document("id", id)).first();
+    public List<Document> read(int id) {
+        List<Document> todos = new ArrayList<>();
+
+        if (id != -1) {
+            Document todo = collection.find(new Document("id", id)).first();
+            if (todo != null) {
+                todos.add(todo);
+            }
+        } else {
+            collection.find().into(todos);
+        }
+
+        return todos;
     }
+
+
 
     public void update(int id, Document updatedDocument) {
         collection.updateOne(new Document("id", id), new Document("$set", updatedDocument));
