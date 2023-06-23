@@ -6,7 +6,7 @@ public class Todo {
     private boolean done;
     private User assignedTo;
 
-    public Todo(int id, String text) {
+    public Todo(int id, String text, boolean done) {
         this.id = id;
         this.text = text;
         this.done = false;

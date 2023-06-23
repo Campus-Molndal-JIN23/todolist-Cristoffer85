@@ -3,7 +3,6 @@ package org.campusmolndal;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +17,27 @@ public class TodoManager {
         this.userCollection = userCollection;
     }
 
+    //############################ CRUDOPERATIONS ##############################
+
     public void createTodo(Scanner scanner) {
+        System.out.println("-------------------");
         System.out.print("Enter the text of the Todo: ");
         String text = scanner.nextLine();
 
         System.out.print("Enter the ID(s) of the User(s) to assign the Todo (comma-separated): ");
         String userIdsInput = scanner.nextLine();
+
         List<Integer> userIds = new ArrayList<>();
         for (String userId : userIdsInput.split(",")) {
             userIds.add(Integer.parseInt(userId.trim()));
         }
 
         int todoId = generateUniqueId(todoCollection);
+
         Document todoDocument = new Document("_id", todoId)
                 .append("text", text)
                 .append("done", false)
-                .append("assignedTo", userIds); // Add assignedTo field with userIds
+                .append("assignedTo", userIds); // Add assignedTo field, with userIds, koppla ihop Todoen med UserID
 
         todoCollection.insertOne(todoDocument);
 
@@ -47,6 +51,7 @@ public class TodoManager {
     }
 
     public void readOneTodo(Scanner scanner) {
+        System.out.println("-------------------");
         System.out.print("Enter the Todo ID: ");
         int todoId = scanner.nextInt();
 
@@ -62,7 +67,9 @@ public class TodoManager {
             List<Integer> assignedToIds = todoDocument.getList("assignedTo", Integer.class);      //----Här någonstans emellan felet med att todoo inte visas angiven användare på
 
             if (assignedToIds != null && !assignedToIds.isEmpty()) {
+                System.out.println("##############################");
                 System.out.println("Assigned To:");
+                System.out.println("##############################");
                 for (int userId : assignedToIds) {
                     System.out.println("User ID: " + userId);                                          //----Endpoint fel
                 }
@@ -76,6 +83,7 @@ public class TodoManager {
     }
 
     public void readAllTodos() {
+        System.out.println("-------------------");
         System.out.println("All Todos:");
         List<Document> todoDocuments = todoCollection.find().into(new ArrayList<>());
 
@@ -87,7 +95,10 @@ public class TodoManager {
             List<Integer> assignedToIds = todoDocument.getList("assignedTo", Integer.class);
             if (assignedToIds != null && !assignedToIds.isEmpty()) {
                 List<User> assignedUsers = getUsersByIds(assignedToIds);
+                System.out.println("##############################");
                 System.out.println("Assigned To:");
+                System.out.println("##############################");
+
                 for (User user : assignedUsers) {
                     System.out.println("User ID: " + user.getId());
                     System.out.println("User Name: " + user.getName());
@@ -102,6 +113,7 @@ public class TodoManager {
     }
 
     public void updateTodo(Scanner scanner) {
+        System.out.println("-------------------");
         System.out.print("Enter the ID of the Todo: ");
         int todoId = scanner.nextInt();
         scanner.nextLine();
@@ -123,6 +135,7 @@ public class TodoManager {
     }
 
     public void deleteTodo(Scanner scanner) {
+        System.out.println("-------------------");
         System.out.print("Enter the ID of the Todo: ");
         int todoId = scanner.nextInt();
         scanner.nextLine();
@@ -137,9 +150,12 @@ public class TodoManager {
         System.out.println("Todo deleted successfully.");
     }
 
+    //############################ MISC (Generate Unique ID här i Todoen, getUserById ifrån den andra klassen) etc.. ##############################
+
     private int generateUniqueId(MongoCollection<Document> collection) {
         BasicDBObject sortQuery = new BasicDBObject("_id", -1);
         Document lastDocument = collection.find().sort(sortQuery).limit(1).first();
+
         if (lastDocument != null) {
             int lastId = lastDocument.getInteger("_id");
             return lastId + 1;
@@ -150,9 +166,11 @@ public class TodoManager {
 
     private List<User> getUsersByIds(List<Integer> userIds) {
         List<User> users = new ArrayList<>();
+
         for (Integer userId : userIds) {
             Document userFilter = new Document("_id", userId);
             Document userDocument = userCollection.find(userFilter).first();
+
             if (userDocument != null) {
                 int id = userDocument.getInteger("_id");
                 String name = userDocument.getString("name");

@@ -1,12 +1,8 @@
 package org.campusmolndal;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class TodoApplication {
@@ -16,11 +12,12 @@ public class TodoApplication {
 
     public TodoApplication() {
         Connection connection = new Connection();
+
         MongoCollection<Document> todoCollection = connection.mongoClient.getDatabase("TODOAPP").getCollection("Todos");
         MongoCollection<Document> userCollection = connection.mongoClient.getDatabase("TODOAPP").getCollection("Users");
 
         todoManager = new TodoManager(todoCollection, userCollection);
-        userManager = new UserManager(userCollection);
+        userManager = new UserManager(userCollection, todoCollection);
 
         scanner = new Scanner(System.in);
     }
