@@ -17,7 +17,7 @@ class TodoTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        todo = new Todo(1, "Sample Todo");
+        this.todo = new Todo(1, "Sample Todo", false);
     }
 
     @Test

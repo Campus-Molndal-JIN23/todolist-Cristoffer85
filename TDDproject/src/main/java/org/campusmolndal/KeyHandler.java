@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.util.Properties;
     public class KeyHandler {        //Class to read locally stored password to MongoDB, to avoid it being shared public.
         Properties props;
-        public KeyHandler(String file){
+        KeyHandler(String file){
 
             props = new Properties();
 

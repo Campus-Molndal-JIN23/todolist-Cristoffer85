@@ -8,7 +8,7 @@ public class Connection {
     KeyHandler keyhandler = new KeyHandler("Pass");     //One instantiation of the KeyHandler class
     static MongoClient mongoClient;
 
-    public Connection() {
+    Connection() {
         try {               // Server Connection
             mongoClient = MongoClients.create("mongodb+srv://cristofferostberg85:" + keyhandler.getPasscode() + "@cluster0.imetavy.mongodb.net/?retryWrites=true&w=majority");
             System.out.println("  ******Connected to external MongoDBServer******");

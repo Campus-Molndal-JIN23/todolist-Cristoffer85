@@ -97,13 +97,16 @@ Troligtvis läst på mer om enklare struktur i program, googlat lite hur man enk
 Bygga mer tydligare och enklare program, mer överskådliga och tusan chansen kanske finns nu, dessutom att det kanske är så att jag kommer ihåg ca 1 år framåt vad tusan det är jag har skrivit just här idag, och kommer ihåg + kan förfina det dessutom.
 
 ### Varför jag valde just denna specifika lösning
+Som jag har förklarat lite ytterligare här ovanför i koden, så tyckte ja att just denna lösning med getters+setters för både User och Todo, och sedan en 'Manager' för var och en där CRUD-operationerna sköttes verkade ganska logiskt och lättläst. Både i programform samt i diagramform. Man förstår eg. vart alla pilar etc tar vägen och hur de går fram-och-tillbaka, och är ganska lätta att förstå sig på, iaf, tycker jag. Sedan en central TodoApplication vilken sköter texten och menyval och hämtar metoderna ifrån de 2 olika klasserna.
 
 ### Förslag på förbättringar av koden
+Implementera ett Interface, göra både USerManager och TodoManager ännu mer lättläst och abstrakt. Tyckte det blev lite grötigt ändå (trots att jag refaktorerat nu, och fått det att se ännu bättre ut än tidigare dock), och funderade på ev. lösningar, men man får ta lite vad tid man har också. Man kan inte alltid ändra världen och rädda den helt och bygga ett nytt Rom på en och samma gång etc. På knapp 1,5 vecka utföra detta program med fulla tester på hela programmet + dokumentation, testning, samtestning av klasskamrat på egen hand totalt, dessutom, får man ändå väga in lite vad man själv kan samt skulle hunnit med.
 
 ### Exempel på lösningar jag valde att inte implementera
+Interface, mer abstrakta lösningar, hade jag gärna velat haft med, men som ovan beskrivet så på grund av tidsbrist (midsommar med, faktiskt) så får man ibland väga tiden. Programmet kan säkerligen förbättras mer i framtiden, bara man lägger tid+tid på det.
 
 ### Förslag på förbättringar av UI/UX för design + reflektion av den
-
+Har gjort en ganska tydlig/fin förbättring av utprintade menyvalen här i terminal iaf (så gott det går, tycker jag) men göra ett FX/GUI här i IntelliJ med, fram till presentation+Inlämning hade väl varit kul. Får se om det hinns med nu i dagarna, ev, tar det sist. Just nu är prio på att få alla testerna klara och fungerande, samt programmet med. Dagen är nu 2023-06-23, Midsommarafton.
 
 
 ## Bilder

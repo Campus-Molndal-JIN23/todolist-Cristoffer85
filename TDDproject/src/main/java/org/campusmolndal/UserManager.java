@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserManager {
-    private final MongoCollection<Document> userCollection;
-    private final MongoCollection<Document> todoCollection;
+    private MongoCollection<Document> userCollection;
+    private MongoCollection<Document> todoCollection;
 
     public UserManager(MongoCollection<Document> userCollection, MongoCollection<Document> todoCollection) {
         this.userCollection = userCollection;

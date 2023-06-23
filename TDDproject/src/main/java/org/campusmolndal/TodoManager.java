@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TodoManager {
-    private final MongoCollection<Document> todoCollection;
-    private final MongoCollection<Document> userCollection;
+    private MongoCollection<Document> todoCollection;
+    private MongoCollection<Document> userCollection;
 
     public TodoManager(MongoCollection<Document> todoCollection, MongoCollection<Document> userCollection) {
         this.todoCollection = todoCollection;
