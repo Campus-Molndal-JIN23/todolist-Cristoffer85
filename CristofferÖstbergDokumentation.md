@@ -132,5 +132,7 @@ Github Projects - 2023-06-21
 Github Projects - 2023-06-22 (New idea implemented+tested = Got f*-ing angry at the last one, scrapped it and tried a new more harmonical one)
 ![Github Projects 2023-06-22.png](planningRes%2FGithub%20Projects%202023-06-22.png)
 
-Github Projects - 2023-06-23
+Github Projects - 2023-06-23 (1)
 ![Github Projects 2023-06-23.png](planningRes%2FGithub%20Projects%202023-06-23.png)
+Github Projects - 2023-06-23 (2)
+![Github Projects 2023-06-23 (2).png](planningRes%2FGithub%20Projects%202023-06-23%20%282%29.png)
