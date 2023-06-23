@@ -3,8 +3,9 @@ package org.campusmolndal;
 import java.io.FileInputStream;
 import java.util.Properties;
     public class KeyHandler {        //Class to read locally stored password to MongoDB, to avoid it being shared public.
-        Properties props;
-        KeyHandler(String file){
+        private Properties props;
+        private FileInputStream input;
+        public KeyHandler(String file){
 
             props = new Properties();
 
@@ -12,7 +13,7 @@ import java.util.Properties;
 
             try {
                     // SHALL be in this folder on personal computer = Ex: C:\Users\*user*\Documents\Pass
-                FileInputStream input = new FileInputStream(userHome + "/Documents/Pass/" + file +".txt");
+                input = new FileInputStream(userHome + "/Documents/Pass/" + file +".txt");
                     // SHALL be typed in file: --> Pass=<password> <--
                 props.load(input);
 
@@ -23,5 +24,9 @@ import java.util.Properties;
         }
         public String getPasscode(){
             return props.getProperty("Pass");  //Reads the password in the file
+        }
+        Properties createProperties() {
+            Properties properties = new Properties();
+            return properties;
         }
     }
