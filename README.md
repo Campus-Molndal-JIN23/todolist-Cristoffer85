@@ -46,3 +46,6 @@ CRUD for TODO:s in the program (unique)
 
 ## Tests
 Tests included (Mockito5 and JUNIT5) for every public method in the program
+
+## Reviewing and Approval
+This Project was reviewed and approved by classmate, on 2023-06-2, by:

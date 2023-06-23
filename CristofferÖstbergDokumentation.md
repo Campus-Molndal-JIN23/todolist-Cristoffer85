@@ -96,6 +96,15 @@ Troligtvis läst på mer om enklare struktur i program, googlat lite hur man enk
 ### Vilka möjligheter ser du med de kunskaper du fått under kursen.
 Bygga mer tydligare och enklare program, mer överskådliga och tusan chansen kanske finns nu, dessutom att det kanske är så att jag kommer ihåg ca 1 år framåt vad tusan det är jag har skrivit just här idag, och kommer ihåg + kan förfina det dessutom.
 
+### Varför jag valde just denna specifika lösning
+
+### Förslag på förbättringar av koden
+
+### Exempel på lösningar jag valde att inte implementera
+
+### Förslag på förbättringar av UI/UX för design + reflektion av den
+
+
 
 ## Bilder
 
