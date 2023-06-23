@@ -128,6 +128,9 @@ började om med Getters+Setters då jag ändå ville testa+lära mig mer om det 
 Jag vill konstant lära mig bli bättre o hur man skriver riktigt snygg kod.
 ![MiroPlan 2023-06-22.png](planningRes%2FMiroPlan%202023-06-22.png)
 
+Dag 5 Miro - 2023-06-23 - Nya programidén + test-environmenten
+![MiroPlan 2023-06-23.png](planningRes%2FMiroPlan%202023-06-23.png)
+
 ### Github Project
 Github Projects - 2023-06-21
 ![Github Projects 2023-06-21.png](planningRes%2FGithub%20Projects%202023-06-21.png)
