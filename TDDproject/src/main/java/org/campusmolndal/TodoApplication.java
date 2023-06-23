@@ -161,7 +161,8 @@ public class TodoApplication {
         int todoId = generateUniqueId(todoCollection);
         Document todoDocument = new Document("_id", todoId)
                 .append("text", text)
-                .append("done", false);
+                .append("done", false)
+                .append("assignedTo", userIds); // Add assignedTo field with userIds
 
         todoCollection.insertOne(todoDocument);
 
@@ -174,6 +175,7 @@ public class TodoApplication {
         System.out.println("Todo created successfully with ID " + todoId);
     }
 
+
     private void readOneTodo() {
         System.out.print("Enter the Todo ID: ");
         int todoId = scanner.nextInt();
@@ -182,23 +184,22 @@ public class TodoApplication {
         Document todoDocument = todoCollection.find(todoFilter).first();
 
         if (todoDocument != null) {
+
             System.out.println("Todo ID: " + todoDocument.getInteger("_id"));
             System.out.println("Text: " + todoDocument.getString("text"));
             System.out.println("Done: " + todoDocument.getBoolean("done"));
 
-            List<ObjectId> assignedToIds = todoDocument.getList("assignedTo", ObjectId.class);
+            List<Integer> assignedToIds = todoDocument.getList("assignedTo", Integer.class);      //----Här någonstans emellan felet med att todoo inte visas angiven användare på
+
             if (assignedToIds != null && !assignedToIds.isEmpty()) {
-                List<User> assignedUsers = getUsersByIds(assignedToIds);
                 System.out.println("Assigned To:");
-                for (User user : assignedUsers) {
-                    System.out.println("User ID: " + user.getId());
-                    System.out.println("User Name: " + user.getName());
-                    System.out.println("User Age: " + user.getAge());
-                    System.out.println();
+                for (int userId : assignedToIds) {
+                    System.out.println("User ID: " + userId);                                          //----Endpoint fel
                 }
             } else {
                 System.out.println("Assigned To: No assigned users");
             }
+
         } else {
             System.out.println("Todo not found.");
         }
