@@ -57,9 +57,9 @@
     </dependencies>
 
     <build>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <testOutputDirectory>target/test-classes</testOutputDirectory>
-        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>TDDproject/src/test/java</testSourceDirectory>
+        <testOutputDirectory>TDDproject/target/test-classes</testOutputDirectory>
+        <sourceDirectory>TDDproject/src/main/java</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

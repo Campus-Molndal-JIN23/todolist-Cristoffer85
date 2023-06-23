@@ -1,72 +1,48 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/MYVtI0hB)
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-7f7980b617ed060a017424585567c406b6ee15c891e84e1186181d67ecf80aa0.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=11361325)
-# Project name
+# Project name TODO-Application in MongoDB
 
 ## Description
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
+A Todo-application that can handle different TODO:s (in text-form, fed in by the user) against MongoDB as a serversolution.
+In the program you can perform CRUD operations against both TODO:s, as well as a user. And both can be connected to each other.
 
 - What was your motivation?
+
+I wanted to build a solution for this typer of program against MongoDB as a server solution as i think MongoDB is a fantastic serversolution, easy to read and understand + you dont have to have various different joins and be afraid of different injections, although, you should always stay on your toes anyway and be varyu of various different other attempts at breaking and getting into your program.  
+
 - Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
+
+Because (i actually) even though it was the given homework assignment, i wanted to create a more complex CRUD-application that can handle both users and different text-messages stored in a remote server. I have some personal exciting use and future implementations and ideas i can use for this.
+
 - What problem does it solve?
+
+Inputs different TODO:s into a remote stored database (but also has a backup in form the local mongoDB-solution if that fails) and they´re all connected to various created users.
+
 - What did you learn?
 
-## Table of Contents (Optional)
-
-If your README is long, add a table of contents to make it easy for users to find what they need.
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Credits](#credits)
-- [License](#license)
+To write cleaner and more easier and more maintainable code. And make this type of project specific against MongoDB, since i really like MongoDB as a server solution.
 
 ## Installation
-
-What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.
+Maven Dependencies in a pom.xml file thats included in this project shall have everything thats required to run this program.
 
 ## Usage
-
-Provide instructions and examples for use. Include screenshots as needed.
-
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
-
-    ```md
-    ![alt text](assets/images/screenshot.png)
-    ```
+For use, press the run-function in your IDE and menu shall appear in your IDE-terminal. From there you can perform various CRUD-operations ragarding both Todo:s and User.
 
 ## Credits
+Classmates from school (ball-plank), Myself, Mighty Duck, and some chatGPT for debugging. 
 
-List your collaborators, if any, with links to their GitHub profiles.
-* [member 1](https://github.com/person1)
-* [member 2](https://github.com/person1)
-
-If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
-* [junit jupiter 5](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter/5.7.0)
-
-If you followed tutorials, include links to those here as well.
+I think its standard these days that you have to use chatGPT/google/StackOverflow or internet for some sort of help with the debugging. As long as you do it right and actively try to learn from 'what' it is that you´re copy-pasteing in and reading it, its ok. Its a learning process that as well.
 
 ## License
-
-The last section of a high-quality README file is the license. This lets other developers know what they can and cannot do with your project. If you need help choosing a license, refer to [MIT License](https://choosealicense.com/licenses/mit/).
-
----
-
-🏆 The previous sections are the bare minimum, and your project will ultimately determine the content of this document. You might also want to consider adding the following sections.
+🏆 MIT License
 
 ## Badges
-
-![badmath](https://img.shields.io/github/languages/top/lernantino/badmath)
-
-Badges aren't necessary, per se, but they demonstrate street cred. Badges let other developers know that you know what you're doing. Check out the badges hosted by [shields.io](https://shields.io/). You may not understand what they all represent now, but you will in time.
+![badmath](https://img.shields.io/badge/Java-100%25-blue)
 
 ## Features
-
-If your project has a lot of features, list them here.
-
-## How to Contribute
-
-If you created an application or package and would like other developers to contribute it, you can include guidelines for how to do so. The [Contributor Covenant](https://www.contributor-covenant.org/) is an industry standard, but you can always write your own if you'd prefer.
+CRUD for a User (Unique)  
+CRUD for TODO:s in the program (unique)
 
 ## Tests
-
-Go the extra mile and write tests for your application. Then provide examples on how to run them here.
+Tests included (Mockito5 and JUNIT5) for every public method in the program
