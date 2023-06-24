@@ -56,7 +56,10 @@ Tydligare detaljinfo om hela projektet i byggplan går att se i Miro-bilder + Pr
 * Dag 5 - 2023-06-23 Fortsätter bygga på dag innan upprättad ny idé, känns 950 gånger bättre (ca, ungefär då, iaf.. :) Fått grundprogram att fungera, med alla implementeringar som krävs för VG-nivå. Håller nu på att refaktorerar, samt undersöker varför 'Text' och 'Done'-value är null på User när man visar den.. nästa issue att baka sig ned i. Får nog bli en chatGPT på den också ev framåt, om jag inte kan hitta felet själv mha lite lo-fi tex.
 
 
-* Dag 6 -
+* Dag 6 - 2023-06-24 Byggde klart det sista med projektet (efter att suttit uppe till 02:30 inatt) och dokumentation. Förhoppningsvis har jag f¨tt ihop alltihopa korrekt just nu.  
+Har gått igenom kravspec:en/uppgioftsdeklarationen på github totalt minst 2 gånger, detlajerat och långsamt så tror jag har fått med allt i funktionalitetsväg, testkört programmet (alla delar) själv, sett över UI/UX-del på den så man begriper vad man trycker och hur man lättast kan trycka det.  
+Testklasser finns till de flesta klasser med publika metoder, har testat det jag kunde testa och det finns iallafall minst en testmetod per klass.
+1 instansierad scanner finns totalt med som används, koden är ganska begriplig iallafall (hoppas jag..) och har inte kommenterat absolut mer än jag själv anser nödvändigt. Har sett över oanvända imports och tittat över pom.xml och raderat det som inte används heller.
 
 ### Vad som varit svårt
 Få till grundprogrammet vilket jag började med först, där jag bara hade Todos skapade ifrån en MongoDBFacade-klass eg, + en meny som skulle hantera allting, och testklasser. Jag hade jättesvårt att få testerna att gå igenom/fungera emot databas (vilket kanske ändå är lite förståeligt, då det är ganska nytt/helt nytt att testa emot en databas för eg. någon av oss)

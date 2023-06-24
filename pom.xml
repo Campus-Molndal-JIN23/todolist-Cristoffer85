@@ -48,12 +48,6 @@
             <artifactId>mongodb-driver-sync</artifactId>
             <version>4.9.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.json/json -->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20230227</version>
-        </dependency>
     </dependencies>
 
     <build>
