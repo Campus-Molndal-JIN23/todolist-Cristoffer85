@@ -145,4 +145,4 @@ Github Projects - 2023-06-23 (2)
 ![Github Projects 2023-06-23 (2).png](planningRes%2FGithub%20Projects%202023-06-23%20%282%29.png)
 
 Github Projects - 2023-06-24 (The TodoManagerTest-class is now complete as well.. Phew.. Aah.. finally.. Feels so f... great.)
-![Github Projects 2023-06-24.png](..%2F..%2F..%2FGithub%20Projects%202023-06-24.png)
+![Github Projects 2023-06-24.png](planningRes%2FGithub%20Projects%202023-06-24.png)
