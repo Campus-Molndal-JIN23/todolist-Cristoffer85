@@ -30,7 +30,7 @@ Maven Dependencies in a pom.xml file thats included in this project shall have e
 For use, press the run-function in your IDE and menu shall appear in your IDE-terminal. From there you can perform various CRUD-operations ragarding both Todo:s and User.
 
 ## Credits
-Classmates from school (ball-plank), Myself, Mighty Duck, and some chatGPT for debugging. 
+Classmates from school (ball-plank), Myself, My Family, Mighty Duck, and some chatGPT for debugging. 
 
 I think its standard these days that you have to use chatGPT/google/StackOverflow or internet for some sort of help with the debugging. As long as you do it right and actively try to learn from 'what' it is that you´re copy-pasteing in and reading it, its ok. Its a learning process that as well.
 
