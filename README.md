@@ -27,7 +27,14 @@ To write cleaner and more easier and more maintainable code. And make this type 
 Maven Dependencies in a pom.xml file thats included in this project shall have everything thats required to run this program.
 
 ## Usage
-For use, press the run-function in your IDE and menu shall appear in your IDE-terminal. From there you can perform various CRUD-operations ragarding both Todo:s and User.
+* On your own computer, path: ```C:\Users\*YourUserName*\Documents\Pass```  
+have a .txt-file named only ```Pass```  
+* and in that file type this exact line ```Pass=YourOwnPassWordToMongoDB``` for the server connection to be tested. 
+  * If the server connection fails it will automatically assume a local connection on port 27017.
+
+To start the program press run-function in your IDE and menu shall appear directly in your IDE-terminal.  
+From there you can perform various CRUD-operations ragarding both Todo:s and User. Mockito and JUnit-Tests shall be included in the testroot folder for as many public methods as possible.
+
 
 ## Credits
 Classmates from school (ball-plank), Myself, My Family, Mighty Duck, and some chatGPT for debugging. 
