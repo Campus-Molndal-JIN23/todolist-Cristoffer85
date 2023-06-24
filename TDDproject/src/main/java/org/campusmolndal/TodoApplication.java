@@ -6,9 +6,9 @@ import org.bson.Document;
 import java.util.Scanner;
 
 public class TodoApplication {
-    private final TodoManager todoManager;
-    private final UserManager userManager;
-    private final Scanner scanner;         //1 scanner
+    TodoManager todoManager;
+    UserManager userManager;
+    Scanner scanner;         //1 scanner
 
     public TodoApplication() {
         Connection connection = new Connection();
