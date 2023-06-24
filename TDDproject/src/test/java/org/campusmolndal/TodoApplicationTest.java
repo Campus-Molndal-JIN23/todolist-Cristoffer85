@@ -61,10 +61,13 @@ class TodoApplicationTest {
     }
 
     @Test
-    void runTest() {
-        todoApplication.run();
+    void runTestCreateUser() {
+        //Arrange
+        // - in @BeforeEach
 
-        // Verify that the corresponding methods were called
+        // Act
+        todoApplication.run();
+        // Assert
         verify(userManager).createUser(scanner);
     }
 }
