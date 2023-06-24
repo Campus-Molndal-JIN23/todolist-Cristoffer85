@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -26,11 +27,14 @@ class TodoManagerTest {
     private FindIterable<Document> findIterable;
 
     private TodoManager todoManager;
+    private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    private final PrintStream originalSystemOut = System.out;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         todoManager = new TodoManager(todoCollection, userCollection);
+        System.setOut(new PrintStream(outputStream));
     }
 
     @Test
@@ -60,5 +64,4 @@ class TodoManagerTest {
             verify(userCollection, times(1)).updateOne(eq(userFilter), eq(userUpdate));
         }
     }
-
 }

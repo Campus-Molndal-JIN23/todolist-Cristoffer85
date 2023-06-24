@@ -44,6 +44,8 @@ class KeyHandlerTest {
         return fileInputStreamMock;
     }
 
+    // ----- helper method to be able to mock and test getPasscode properly
+
     private void setFileInputStream(KeyHandler keyHandler, FileInputStream fileInputStream) throws Exception {
         Field propsField = KeyHandler.class.getDeclaredField("props");
         propsField.setAccessible(true);
