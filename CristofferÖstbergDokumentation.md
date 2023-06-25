@@ -138,7 +138,7 @@ Dag 5 Miro - 2023-06-23 - Nya programidén + test-environmenten
 ![MiroPlan 2023-06-23.png](planningRes%2FMiroPlan%202023-06-23.png)
 
 Dag 6 Miro - 2023-06-25 - Nya färdiga program, idén diagrammet klart.
-
+![MiroPlan 2023-06-25.png](planningRes%2FMiroPlan%202023-06-25.png)
 
 ### Github Project
 Github Projects - 2023-06-21
