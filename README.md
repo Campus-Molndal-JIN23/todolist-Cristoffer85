@@ -27,14 +27,19 @@ To write cleaner and more easier and more maintainable code. And make this type 
 Maven Dependencies in a pom.xml file thats included in this project shall have everything thats required to run this program.
 
 ## Usage
-* On your own computer, path: ```C:\Users\*YourUserName*\Documents\Pass```  
-have a .txt-file named only ```Pass```  
-* and in that file type this exact line ```Pass=YourOwnPassWordToMongoDB``` for the server connection to be tested. 
-  * If the server connection fails it will automatically assume a local connection on port 27017.
+<B>For server connection:</B>  
+* On your own computer, path - ```C:\Users\YourUserName\Documents\Pass```  
+have a .txt-file named only ```Pass``` in that file type this exact line ```Pass=YourOwnPassWordToMongoDB``` for the server connection to be tested.
 
-To start the program press run-function in your IDE and menu shall appear directly in your IDE-terminal.  
-From there you can perform various CRUD-operations ragarding both Todo:s and User. Mockito and JUnit-Tests shall be included in the testroot folder for as many public methods as possible.
 
+* Also, in the Connection class in root main, change line 13 (```mongoClient = MongoClients.create("mongodb+srv://YourOwnUserNameToMongoDB:" + keyhandler.getPasscode() + "@YourownClusterandConnectionStringToMongoDB");```)  
+to your own User name, and connectionstring from MongoDB.
+
+<B>For Local connection:</B>  
+If the server connection fails, it will automatically assume a local connection on port 27017.  
+Make sure you have the MongoDB Compass installed on your computer from https://www.mongodb.com/try/download/shell to try, and that it is pointing towards port 27017.
+
+After all this press run-function in your IDE and it shall work.
 
 ## Credits
 Classmates from school (ball-plank), Myself, My Family, Mighty Duck, and some chatGPT for debugging. 
