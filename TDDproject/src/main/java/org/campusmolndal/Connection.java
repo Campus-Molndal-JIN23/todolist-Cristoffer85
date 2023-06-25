@@ -21,7 +21,7 @@ public class Connection {
             MongoDatabase db = mongoClient.getDatabase("admin");
             db.runCommand(new Document("ping", 1));
             System.out.println("  ******Connected to external MongoDBServer******");
-        } catch (MongoException e) {
+        } catch (Exception e) {
             System.out.println("Sorry unable to connect: " + e.getMessage());
             System.out.println("Trying to connect locally instead...");
 
@@ -29,7 +29,7 @@ public class Connection {
             try {
                 mongoClient = MongoClients.create("mongodb://localhost:27017");
                 System.out.println("  ******Connected to local MongoDBServer******");
-            } catch (MongoException ex) {
+            } catch (Exception ex) {
                 System.out.println("Sorry unable to connect locally as well: " + ex.getMessage());
             }
         }
