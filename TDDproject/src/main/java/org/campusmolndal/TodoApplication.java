@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class TodoApplication {
     TodoManager todoManager;
     UserManager userManager;
-    Scanner scanner;         //1 scanner
+    Scanner scanner;
 
     public TodoApplication() {
         Connection connection = new Connection();
