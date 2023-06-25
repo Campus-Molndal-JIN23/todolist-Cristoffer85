@@ -1,6 +1,5 @@
 package org.campusmolndal;
 
-import com.mongodb.MongoException;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
@@ -26,11 +25,11 @@ public class Connection {
             System.out.println("Trying to connect locally instead...");
 
             //-------------------- Local Connection --------------------
-            try {
-                mongoClient = MongoClients.create("mongodb://localhost:27017");
-                System.out.println("  ******Connected to local MongoDBServer******");
-            } catch (Exception ex) {
-                System.out.println("Sorry unable to connect locally as well: " + ex.getMessage());
+        try {
+            mongoClient = MongoClients.create("mongodb://localhost:27017");
+            System.out.println("  ******Connected to local MongoDBServer******");
+        } catch (Exception ex) {
+            System.out.println("Sorry unable to connect locally as well: " + ex.getMessage());
             }
         }
     }
