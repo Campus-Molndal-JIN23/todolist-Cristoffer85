@@ -27,7 +27,7 @@ To write cleaner and more easier and more maintainable code. And make this type 
 Maven Dependencies in a pom.xml file thats included in this project shall have everything thats required to run this program.
 
 ## Usage
-<B>For server connection:</B>  
+<B>For Server connection:</B>  
 * In src-root, alter the file <I>mongodb.properties</I> where the String ```connectionString=YourOwnConnectionStringToMongoDB``` shows up.  
 Copy-paste the YourOwnConnectionStringToMongoDB-part with your own ConnectionString to MongoDB, and it shall work.
 
