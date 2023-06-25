@@ -61,6 +61,9 @@ Har gått igenom kravspec:en/uppgioftsdeklarationen på github totalt minst 2 g�
 Testklasser finns till de flesta klasser med publika metoder, har testat det jag kunde testa och det finns iallafall minst en testmetod per klass.
 1 instansierad scanner finns totalt med som används, koden är ganska begriplig iallafall (hoppas jag..) och har inte kommenterat absolut mer än jag själv anser nödvändigt. Har sett över oanvända imports och tittat över pom.xml och raderat det som inte används heller.
 
+
+* Dag
+
 ### Vad som varit svårt
 Få till grundprogrammet vilket jag började med först, där jag bara hade Todos skapade ifrån en MongoDBFacade-klass eg, + en meny som skulle hantera allting, och testklasser. Jag hade jättesvårt att få testerna att gå igenom/fungera emot databas (vilket kanske ändå är lite förståeligt, då det är ganska nytt/helt nytt att testa emot en databas för eg. någon av oss)
 
