@@ -28,18 +28,13 @@ Maven Dependencies in a pom.xml file thats included in this project shall have e
 
 ## Usage
 <B>For server connection:</B>  
-* On your own computer, path - ```C:\Users\YourUserName\Documents\Pass```  
-have a .txt-file named only ```Pass``` in that file type this exact line ```Pass=YourOwnPassWordToMongoDB``` for the server connection to be tested.
-
-
-* Also, in the Connection class in root main, change line 13 (```mongoClient = MongoClients.create("mongodb+srv://YourOwnUserNameToMongoDB:" + keyhandler.getPasscode() + "@YourownClusterandConnectionStringToMongoDB");```)  
-to your own User name, and connectionstring from MongoDB.
+* In main-root, alter the file <I>mongodb.properties</I> where the String ```connectionString=YourOwnConnectionStringToMongoDB``` shows up.  
+Copy-paste the YourOwnConnectionStringToMongoDB-part with your own ConnectionString to MongoDB, and it shall work.
 
 <B>For Local connection:</B>  
-If the server connection fails, it will automatically assume a local connection on port 27017.  
+* If the server connection fails, it will automatically assume a local connection on port 27017.  
 Make sure you have the MongoDB Compass installed on your computer from https://www.mongodb.com/try/download/shell to try, and that it is pointing towards port 27017.
 
-After all this press run-function in your IDE and it shall work.
 
 ## Credits
 Classmates from school (ball-plank), Myself, My Family, Mighty Duck, and some chatGPT for debugging. 
