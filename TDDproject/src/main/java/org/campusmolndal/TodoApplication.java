@@ -19,7 +19,7 @@ public class TodoApplication {
         todoManager = new TodoManager(todoCollection, userCollection);
         userManager = new UserManager(userCollection, todoCollection);
 
-        scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);         //Instantiates only one (1) scanner that is used in connecting classes
     }
 
     public void run() {
