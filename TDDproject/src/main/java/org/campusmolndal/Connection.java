@@ -37,7 +37,7 @@ public class Connection {
     private Properties loadProperties() {
         Properties props = new Properties();
         try {
-            FileInputStream input = new FileInputStream("TDDproject/src/main/mongodb.properties");
+            FileInputStream input = new FileInputStream("TDDproject/src/mongodb.properties");
             props.load(input);
         } catch (Exception e) {
             System.out.println(e.getMessage());

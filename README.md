@@ -28,7 +28,7 @@ Maven Dependencies in a pom.xml file thats included in this project shall have e
 
 ## Usage
 <B>For server connection:</B>  
-* In main-root, alter the file <I>mongodb.properties</I> where the String ```connectionString=YourOwnConnectionStringToMongoDB``` shows up.  
+* In src-root, alter the file <I>mongodb.properties</I> where the String ```connectionString=YourOwnConnectionStringToMongoDB``` shows up.  
 Copy-paste the YourOwnConnectionStringToMongoDB-part with your own ConnectionString to MongoDB, and it shall work.
 
 <B>For Local connection:</B>  
