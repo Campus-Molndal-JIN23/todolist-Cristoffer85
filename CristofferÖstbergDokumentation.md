@@ -62,7 +62,7 @@ Testklasser finns till de flesta klasser med publika metoder, har testat det jag
 1 instansierad scanner finns totalt med som används, koden är ganska begriplig iallafall (hoppas jag..) och har inte kommenterat absolut mer än jag själv anser nödvändigt. Har sett över oanvända imports och tittat över pom.xml och raderat det som inte används heller.
 
 
-* Dag
+* Dag 7 - 2023-06-25 Programmet färdigt, efter genomgång av både Emil Sivertsson och Kristoffer Larsson i klassen så fick feedback på lite saker och har fixat med det under dagen. Bla gjort om och omstrukturerat Connection helt och hållet, där anslutning till server sköts nu helt och hållet via Connection och en konfigurationsfil ute i JinTDD-project mappen och som heter mongodb.properties, där man istället för att hålla på och krångla med diverse personers lösenord och användarnamn till mongodb, och måste be om de så kan man bara klistra in sin anslutningssträng inne i den filen som man personligen har på mongodb, sedan kan man enkelt testa hela programmet emot t.ex sin egna databas :) Så det känns 100%, och toppenbra och gött att det blev implementerat idag. Man får bara passa sig så man inte råkar pusha upp till github med sin egna sträng inne. Jag har default att den inte är det just nu, iaf. La till lite fler tester idag, och såg över lite estetik, kollade igenom koden och testade lite till bara för att se att inget ev. råkat blivit fel vid framtida ändringar (regressionstest, aha, titta vad jag kommer ihåg ifrån testbenämnningsfasen :) 
 
 ### Vad som varit svårt
 Få till grundprogrammet vilket jag började med först, där jag bara hade Todos skapade ifrån en MongoDBFacade-klass eg, + en meny som skulle hantera allting, och testklasser. Jag hade jättesvårt att få testerna att gå igenom/fungera emot databas (vilket kanske ändå är lite förståeligt, då det är ganska nytt/helt nytt att testa emot en databas för eg. någon av oss)
@@ -136,6 +136,9 @@ Jag vill konstant lära mig bli bättre o hur man skriver riktigt snygg kod.
 
 Dag 5 Miro - 2023-06-23 - Nya programidén + test-environmenten
 ![MiroPlan 2023-06-23.png](planningRes%2FMiroPlan%202023-06-23.png)
+
+Dag 6 Miro - 2023-06-25 - Nya färdiga program, idén diagrammet klart.
+
 
 ### Github Project
 Github Projects - 2023-06-21
