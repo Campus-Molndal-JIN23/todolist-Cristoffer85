@@ -3,10 +3,7 @@ package org.campusmolndal;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class TodoManager {
     MongoCollection<Document> todoCollection;
@@ -21,16 +18,41 @@ public class TodoManager {
 
     public void createTodo(Scanner scanner) {
         System.out.println("-------------------");
-        System.out.print("Enter the text of the Todo: ");
-        String text = scanner.nextLine();
+        String text = null;
 
-        System.out.print("Enter the ID(s) of the User(s) to assign the Todo (comma-separated): ");
-        String userIdsInput = scanner.nextLine();
+        while (true) {
+            System.out.print("Enter the text of the Todo: ");
+            text = scanner.nextLine().trim();
 
-        List<Integer> userIds = Arrays.stream(userIdsInput.split(","))                     //Integer-Lista med regex för att lägga till en todoe på tex flera användare, komma emellan
-                .map(String::trim)
-                .map(Integer::parseInt)
-                .toList();
+            if (!text.isEmpty()) {
+                break;
+            }
+
+            System.out.println("Invalid input! Please enter a valid text for the Todo.");
+        }
+
+        List<Integer> userIds = new ArrayList<>();
+
+        while (true) {
+            try {
+                System.out.print("Enter the ID(s) of the User(s) to assign the Todo (comma-separated): ");
+                String userIdsInput = scanner.nextLine();
+
+                userIds = Arrays.stream(userIdsInput.split(","))
+                        .map(String::trim)
+                        .map(Integer::parseInt)
+                        .toList();
+
+                if (!validateUserIds(userIds)) {
+                    System.out.println("Invalid user ID(s)! Please enter existing user ID(s).");
+                    continue;
+                }
+
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter valid user ID(s).");
+            }
+        }
 
         int todoId = generateUniqueId(todoCollection);
 
@@ -41,7 +63,7 @@ public class TodoManager {
 
         todoCollection.insertOne(todoDocument);
 
-        for (int userId : userIds) {                                                            //Loopar igenom UserIds för att hitta befintlig User att assigna Todoe
+        for (int userId : userIds) {
             Document userFilter = new Document("_id", userId);
             Document userUpdate = new Document("$push", new Document("todos", todoId));
             userCollection.updateOne(userFilter, userUpdate);
@@ -50,12 +72,25 @@ public class TodoManager {
         System.out.println("Todo created successfully with ID " + todoId);
     }
 
+
     public void readOneTodo(Scanner scanner) {
         System.out.println("-------------------");
-        System.out.print("Enter the Todo ID: ");
-        int todoId = scanner.nextInt();
 
-        Document todoFilter = new Document("_id", todoId);                                      //Filtrerar igenom todoe-collectionen för att läsa todoe
+        int todoId = 0;
+
+        while (true) {
+            try {
+                System.out.print("Enter the Todo ID: ");
+                todoId = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid Todo ID.");
+                scanner.nextLine();
+            }
+        }
+
+        Document todoFilter = new Document("_id", todoId);
         Document todoDocument = todoCollection.find(todoFilter).first();
 
         if (todoDocument != null) {
@@ -78,12 +113,24 @@ public class TodoManager {
 
     public void updateTodo(Scanner scanner) {
         System.out.println("------------------");
-        System.out.print("Enter the ID of the Todo: ");
-        int todoId = scanner.nextInt();
-        scanner.nextLine();
+
+        int todoId = 0;
+
+        while (true) {
+            try {
+                System.out.print("Enter the ID of the Todo: ");
+                todoId = scanner.nextInt();
+                scanner.nextLine(); // Clear the newline character from the scanner's buffer
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid Todo ID.");
+                scanner.nextLine(); // Clear the invalid input
+            }
+        }
 
         Document todoFilter = new Document("_id", todoId);
         Document todoDocument = todoCollection.find(todoFilter).first();
+
         if (todoDocument == null) {
             System.out.println("Todo not found with ID " + todoId);
             return;
@@ -92,9 +139,19 @@ public class TodoManager {
         System.out.print("Enter the updated text of the Todo: ");
         String updatedText = scanner.nextLine();
 
-        System.out.print("Enter the updated status of the Todo (true/false): ");
-        boolean updatedStatus = scanner.nextBoolean();
-        scanner.nextLine();
+        boolean updatedStatus = false;
+
+        while (true) {
+            try {
+                System.out.print("Enter the updated status of the Todo (true/false): ");
+                updatedStatus = scanner.nextBoolean();
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter 'true' or 'false'.");
+                scanner.nextLine();
+            }
+        }
 
         Document updateDocument = new Document("$set", new Document("text", updatedText).append("done", updatedStatus));
         todoCollection.updateOne(todoFilter, updateDocument);
@@ -105,9 +162,21 @@ public class TodoManager {
 
     public void deleteTodo(Scanner scanner) {
         System.out.println("-------------------");
-        System.out.print("Enter the ID of the Todo: ");
-        int todoId = scanner.nextInt();
-        scanner.nextLine();
+
+        int todoId;
+
+        while (true) {
+            try {
+                System.out.print("Enter the ID of the Todo: ");
+                todoId = scanner.nextInt();
+                scanner.nextLine();
+
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid Todo ID.");
+                scanner.nextLine();
+            }
+        }
 
         Document todoFilter = new Document("_id", todoId);
         todoCollection.deleteOne(todoFilter);
@@ -172,4 +241,16 @@ public class TodoManager {
         }
         return users;
     }
+
+    private boolean validateUserIds(List<Integer> userIds) {
+        for (int userId : userIds) {
+            Document userFilter = new Document("_id", userId);
+            Document user = userCollection.find(userFilter).first();
+            if (user == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

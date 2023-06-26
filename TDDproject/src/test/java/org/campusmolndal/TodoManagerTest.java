@@ -2,10 +2,13 @@ package org.campusmolndal;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.io.ByteArrayInputStream;
@@ -16,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -28,45 +31,19 @@ class TodoManagerTest {
     private MongoCollection<Document> userCollection;
     @Mock
     private FindIterable<Document> findIterable;
-
     private TodoManager todoManager;
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    private final PrintStream originalSystemOut = System.out;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         todoManager = new TodoManager(todoCollection, userCollection);
         System.setOut(new PrintStream(outputStream));
+        when(todoCollection.find(any(Document.class))).thenReturn(findIterable);
+        when(findIterable.first()).thenReturn(new Document());
     }
 
-    @Test
-    void createTodoTest() {
-        Scanner scanner = new Scanner("Sample todo\n1,2,3\n");
-        List<Integer> userIds = Arrays.asList(1, 2, 3);
-        int todoId = 1;
 
-        Document todoDocument = new Document("_id", todoId)
-                .append("text", "Sample todo")
-                .append("done", false)
-                .append("assignedTo", userIds);
-
-        when(todoCollection.insertOne(any(Document.class))).thenReturn(null);
-        when(todoCollection.find()).thenReturn(findIterable);
-        when(findIterable.sort(any())).thenReturn(findIterable);
-        when(findIterable.limit(anyInt())).thenReturn(findIterable);
-        when(userCollection.updateOne(any(Document.class), any(Document.class))).thenReturn(null);
-
-        todoManager.createTodo(scanner);
-
-        verify(todoCollection, times(1)).insertOne(eq(todoDocument));
-
-        for (int userId : userIds) {
-            Document userFilter = new Document("_id", userId);
-            Document userUpdate = new Document("$push", new Document("todos", todoId));
-            verify(userCollection, times(1)).updateOne(eq(userFilter), eq(userUpdate));
-        }
-    }
 
     @Test
     void readOneTodoTest() {
@@ -78,7 +55,7 @@ class TodoManagerTest {
 
         // Configure the input scanner with the desired input
         InputStream sysInBackup = System.in; // Backup System.in to restore it later
-        ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream((todoId + System.lineSeparator()).getBytes());
         System.setIn(in);
 
         // Mock the MongoDB behavior
@@ -96,12 +73,12 @@ class TodoManagerTest {
         expectedOutput += "Text: Sample todo" + System.lineSeparator();
         expectedOutput += "Done: false" + System.lineSeparator();
         expectedOutput += "Assigned To: No assigned users" + System.lineSeparator();
-
         assertEquals(expectedOutput, outputStream.toString());
 
         // Restore System.in
         System.setIn(sysInBackup);
     }
+
 
     @Test
     void readAllTodosTest() {

@@ -1,73 +1,212 @@
 package org.campusmolndal;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
-import java.lang.reflect.Field;
 import java.util.Scanner;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class TodoApplicationTest {
     @Mock
-    private TodoManager todoManager;
-    @Mock
-    private UserManager userManager;
-    @Mock
-    private Scanner scanner;
-    @Mock
-    private MongoCollection<Document> todoCollection;
-    @Mock
-    private MongoCollection<Document> userCollection;
-    @Mock
-    private MongoClient mongoClient;
-    @Mock
-    private MongoDatabase mongoDatabase;
+    TodoManager todoManager;
 
-    private TodoApplication todoApplication;
+    @Mock
+    UserManager userManager;
+
+    @Mock
+    Scanner scanner;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+    }
 
-        when(scanner.nextInt()).thenReturn(1).thenReturn(0); // Simulate user input: 1 and then 0
-        when(scanner.nextLine()).thenReturn(""); // Simulate user pressing enter
 
-        when(mongoClient.getDatabase("TODOAPP")).thenReturn(mongoDatabase);
-        when(mongoDatabase.getCollection("Todos")).thenReturn(todoCollection);
-        when(mongoDatabase.getCollection("Users")).thenReturn(userCollection);
+    @Test
+    void run_shouldInvokeUserManagerCreateUser_whenChoiceIsOne() {
+        // Arrange
+        TodoApplication todoApplication = createTodoApplicationWithMockedDependencies();
 
-        todoApplication = new TodoApplication();
+        // Simulate user input: 1 (for choice 1), 0 (for exit)
+        when(scanner.nextLine())
+                .thenReturn("1")
+                .thenReturn("0");
+
+        // Act
+        todoApplication.run();
+
+        // Assert
+        verify(userManager).createUser(scanner);
+        verify(todoApplication, times(2)).displayMenu();
+        verify(scanner, times(2)).nextLine();
+    }
+
+    @Test
+    void run_shouldInvokeUserManagerCreateUser_whenChoiceIsTwo() {
+        // Arrange
+        TodoApplication todoApplication = createTodoApplicationWithMockedDependencies();
+
+        // Simulate user input: 1 (for choice 1), 0 (for exit)
+        when(scanner.nextLine())
+                .thenReturn("2")
+                .thenReturn("0");
+
+        // Act
+        todoApplication.run();
+
+        // Assert
+        verify(userManager).readUser(scanner);
+        verify(todoApplication, times(2)).displayMenu();
+        verify(scanner, times(2)).nextLine();
+    }
+
+    @Test
+    void run_shouldInvokeUserManagerCreateUser_whenChoiceIsThree() {
+        // Arrange
+        TodoApplication todoApplication = createTodoApplicationWithMockedDependencies();
+
+        // Simulate user input: 1 (for choice 1), 0 (for exit)
+        when(scanner.nextLine())
+                .thenReturn("3")
+                .thenReturn("0");
+
+        // Act
+        todoApplication.run();
+
+        // Assert
+        verify(userManager).updateUser(scanner);
+        verify(todoApplication, times(2)).displayMenu();
+        verify(scanner, times(2)).nextLine();
+    }
+
+    @Test
+    void run_shouldInvokeUserManagerCreateUser_whenChoiceIsFour() {
+        // Arrange
+        TodoApplication todoApplication = createTodoApplicationWithMockedDependencies();
+
+        // Simulate user input: 1 (for choice 1), 0 (for exit)
+        when(scanner.nextLine())
+                .thenReturn("4")
+                .thenReturn("0");
+
+        // Act
+        todoApplication.run();
+
+        // Assert
+        verify(userManager).deleteUser(scanner);
+        verify(todoApplication, times(2)).displayMenu();
+        verify(scanner, times(2)).nextLine();
+    }
+
+    @Test
+    void run_shouldInvokeUserManagerCreateUser_whenChoiceIsFive() {
+        // Arrange
+        TodoApplication todoApplication = createTodoApplicationWithMockedDependencies();
+
+        // Simulate user input: 1 (for choice 1), 0 (for exit)
+        when(scanner.nextLine())
+                .thenReturn("5")
+                .thenReturn("0");
+
+        // Act
+        todoApplication.run();
+
+        // Assert
+        verify(todoManager).createTodo(scanner);
+        verify(todoApplication, times(2)).displayMenu();
+        verify(scanner, times(2)).nextLine();
+    }
+
+    @Test
+    void run_shouldInvokeUserManagerCreateUser_whenChoiceIsSix() {
+        // Arrange
+        TodoApplication todoApplication = createTodoApplicationWithMockedDependencies();
+
+        // Simulate user input: 1 (for choice 1), 0 (for exit)
+        when(scanner.nextLine())
+                .thenReturn("6")
+                .thenReturn("0");
+
+        // Act
+        todoApplication.run();
+
+        // Assert
+        verify(todoManager).readOneTodo(scanner);
+        verify(todoApplication, times(2)).displayMenu();
+        verify(scanner, times(2)).nextLine();
+    }
+
+    @Test
+    void run_shouldInvokeUserManagerCreateUser_whenChoiceIsSeven() {
+        // Arrange
+        TodoApplication todoApplication = createTodoApplicationWithMockedDependencies();
+
+        // Simulate user input: 1 (for choice 1), 0 (for exit)
+        when(scanner.nextLine())
+                .thenReturn("7")
+                .thenReturn("0");
+
+        // Act
+        todoApplication.run();
+
+        // Assert
+        verify(todoManager).readAllTodos();
+        verify(todoApplication, times(2)).displayMenu();
+        verify(scanner, times(2)).nextLine();
+    }
+
+    @Test
+    void run_shouldInvokeUserManagerCreateUser_whenChoiceIsEight() {
+        // Arrange
+        TodoApplication todoApplication = createTodoApplicationWithMockedDependencies();
+
+        // Simulate user input: 1 (for choice 1), 0 (for exit)
+        when(scanner.nextLine())
+                .thenReturn("8")
+                .thenReturn("0");
+
+        // Act
+        todoApplication.run();
+
+        // Assert
+        verify(todoManager).updateTodo(scanner);
+        verify(todoApplication, times(2)).displayMenu();
+        verify(scanner, times(2)).nextLine();
+    }
+
+    @Test
+    void run_shouldInvokeUserManagerCreateUser_whenChoiceIsNine() {
+        // Arrange
+        TodoApplication todoApplication = createTodoApplicationWithMockedDependencies();
+
+        // Simulate user input: 1 (for choice 1), 0 (for exit)
+        when(scanner.nextLine())
+                .thenReturn("9")
+                .thenReturn("0");
+
+        // Act
+        todoApplication.run();
+
+        // Assert
+        verify(todoManager).deleteTodo(scanner);
+        verify(todoApplication, times(2)).displayMenu();
+        verify(scanner, times(2)).nextLine();
+    }
+
+    private TodoApplication createTodoApplicationWithMockedDependencies() {
+        TodoApplication todoApplication = Mockito.spy(new TodoApplication());
+
         todoApplication.todoManager = todoManager;
         todoApplication.userManager = userManager;
         todoApplication.scanner = scanner;
 
-        try {
-            Field connectionField = TodoApplication.class.getDeclaredField("connection");
-            connectionField.setAccessible(true);
-
-            Connection connection = mock(Connection.class);
-            connection.mongoClient = mongoClient;
-            connectionField.set(todoApplication, connection);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    void runTestCreateUser() {
-        //Arrange
-        // - in @BeforeEach
-
-        // Act
-        todoApplication.run();
-        // Assert
-        verify(userManager).createUser(scanner);
+        return todoApplication;
     }
 }

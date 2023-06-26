@@ -5,6 +5,7 @@ import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,12 +22,32 @@ public class UserManager {
 
     public void createUser(Scanner scanner) {
         System.out.println("-------------------");
-        System.out.print("Enter the name of the User: ");
-        String name = scanner.nextLine();
+        String name = null;
 
-        System.out.print("Enter the age of the User: ");
-        int age = scanner.nextInt();
-        scanner.nextLine();
+        while (true) {
+            System.out.print("Enter the name of the User: ");
+            name = scanner.nextLine().trim();
+
+            if (!name.isEmpty()) {
+                break;
+            }
+
+            System.out.println("Invalid input! Please enter a valid name.");
+        }
+
+        int age = 0;
+
+        while (true) {
+            try {
+                System.out.print("Enter the age of the User: ");
+                age = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid age.");
+                scanner.nextLine();
+            }
+        }
 
         int userId = generateUniqueId(userCollection);
         Document userDocument = new Document("_id", userId)
@@ -41,36 +62,46 @@ public class UserManager {
 
     public void readUser(Scanner scanner) {
         System.out.println("-------------------");
-        System.out.print("Enter the ID of the User: ");
-        int userId = scanner.nextInt();
-        scanner.nextLine();
 
-        Document userFilter = new Document("_id", userId);
-        Document userDocument = userCollection.find(userFilter).first();
+        while (true) {
+            try {
+                System.out.print("Enter the ID of the User: ");
+                int userId = scanner.nextInt();
+                scanner.nextLine();
 
-        if (userDocument == null) {
-            System.out.println("User not found with ID " + userId);
-            return;
-        }
+                Document userFilter = new Document("_id", userId);
+                Document userDocument = userCollection.find(userFilter).first();
 
-        List<Integer> todoIds = userDocument.getList("todos", Integer.class);
-        List<Document> todoDocuments = getTodoDocuments(todoIds);
+                if (userDocument == null) {
+                    System.out.println("User not found with ID " + userId);
+                    return;
+                }
 
-        System.out.println("User ID: " + userId);
-        System.out.println("Name: " + userDocument.getString("name"));
-        System.out.println("Age: " + userDocument.getInteger("age"));
-        System.out.println("##############################");
-        System.out.println("Todos:");
-        System.out.println("##############################");
-        if (todoDocuments.isEmpty()) {
-            System.out.println("No Todos assigned to this user.");
+                List<Integer> todoIds = userDocument.getList("todos", Integer.class);
+                List<Document> todoDocuments = getTodoDocuments(todoIds);
 
-        } else {
-            for (Document todoDocument : todoDocuments) {
-                System.out.println("Todo ID: " + todoDocument.getInteger("_id"));
-                System.out.println("Text: " + todoDocument.getString("text"));
-                System.out.println("Done: " + todoDocument.getBoolean("done"));
-                System.out.println();
+                System.out.println("User ID: " + userId);
+                System.out.println("Name: " + userDocument.getString("name"));
+                System.out.println("Age: " + userDocument.getInteger("age"));
+                System.out.println("##############################");
+                System.out.println("Todos:");
+                System.out.println("##############################");
+
+                if (todoDocuments.isEmpty()) {
+                    System.out.println("No Todos assigned to this user.");
+                } else {
+                    for (Document todoDocument : todoDocuments) {
+                        System.out.println("Todo ID: " + todoDocument.getInteger("_id"));
+                        System.out.println("Text: " + todoDocument.getString("text"));
+                        System.out.println("Done: " + todoDocument.getBoolean("done"));
+                        System.out.println();
+                    }
+                }
+
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid user ID.");
+                scanner.nextLine();
             }
         }
     }
@@ -78,8 +109,18 @@ public class UserManager {
     public void updateUser(Scanner scanner) {
         System.out.println("-------------------");
         System.out.print("Enter the ID of the User: ");
-        int userId = scanner.nextInt();
-        scanner.nextLine();
+
+        int userId = 0;
+        while (true) {
+            try {
+                userId = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid user ID.");
+                scanner.nextLine();
+            }
+        }
 
         Document userFilter = new Document("_id", userId);
         Document userDocument = userCollection.find(userFilter).first();
@@ -100,14 +141,23 @@ public class UserManager {
 
     public void deleteUser(Scanner scanner) {
         System.out.println("-------------------");
-        System.out.print("Enter the ID of the User: ");
-        int userId = scanner.nextInt();
-        scanner.nextLine();
 
-        Document userFilter = new Document("_id", userId);
-        userCollection.deleteOne(userFilter);
+        while (true) {
+            try {
+                System.out.print("Enter the ID of the User: ");
+                int userId = scanner.nextInt();
+                scanner.nextLine();
 
-        System.out.println("User deleted successfully.");
+                Document userFilter = new Document("_id", userId);
+                userCollection.deleteOne(userFilter);
+
+                System.out.println("User deleted successfully.");
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid user ID.");
+                scanner.nextLine();
+            }
+        }
     }
 
     //############################ MISC (Generate Unique ID här, getTodoDocuments från den andra klassen) etc... ##############################

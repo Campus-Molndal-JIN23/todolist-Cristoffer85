@@ -3,6 +3,7 @@ package org.campusmolndal;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TodoApplication {
@@ -28,28 +29,73 @@ public class TodoApplication {
         while (!exit) {
             displayMenu();
 
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = -1;
+            boolean validChoice = false;
+
+            while (!validChoice) {
+                System.out.print("Enter your choice: ");
+
+                String input = scanner.nextLine().trim();
+
+                if (input.isEmpty()) {
+                    System.out.println("Invalid input! Please enter a valid choice.");
+                    continue;
+                }
+
+                try {
+                    choice = Integer.parseInt(input);
+                    validChoice = true;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input! Please enter a valid choice.");
+                }
+            }
 
             switch (choice) {
-                case 1 -> userManager.createUser(scanner);
-                case 2 -> userManager.readUser(scanner);
-                case 3 -> userManager.updateUser(scanner);
-                case 4 -> userManager.deleteUser(scanner);
-                case 5 -> todoManager.createTodo(scanner);
-                case 6 -> todoManager.readOneTodo(scanner);
-                case 7 -> todoManager.readAllTodos();
-                case 8 -> todoManager.updateTodo(scanner);
-                case 9 -> todoManager.deleteTodo(scanner);
-                case 0 -> exit = true;
-                default -> System.out.println("Invalid choice. Please try again.");
+                case 1:
+                    userManager.createUser(scanner);
+                    break;
+                case 2:
+                    userManager.readUser(scanner);
+                    break;
+                case 3:
+                    userManager.updateUser(scanner);
+                    break;
+                case 4:
+                    userManager.deleteUser(scanner);
+                    break;
+                case 5:
+                    todoManager.createTodo(scanner);
+                    break;
+                case 6:
+                    todoManager.readOneTodo(scanner);
+                    break;
+                case 7:
+                    todoManager.readAllTodos();
+                    break;
+                case 8:
+                    todoManager.updateTodo(scanner);
+                    break;
+                case 9:
+                    todoManager.deleteTodo(scanner);
+                    break;
+                case 0:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+
+            if (exit) {
+                break;
             }
         }
+
         scanner.close();
     }
 
-    private void displayMenu() {
+
+
+    void displayMenu() {
         System.out.println(
 
                    "\n             ## TODO APPLICATION ##"
