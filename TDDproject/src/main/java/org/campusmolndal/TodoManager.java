@@ -51,7 +51,7 @@ public class TodoManager {
 
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input! Please enter valid user ID(s).");
+                System.out.println("Invalid input! Please enter valid user ID(s). ");
             }
         }
 
