@@ -55,4 +55,5 @@ CRUD for TODO:s in the program (unique)
 Tests included (Mockito5 and JUNIT5) for every public method in the program
 
 ## Reviewing and Approval
-This Project was reviewed and approved by classmate, on 2023-06-2, by:
+This Project was reviewed and approved by classmate Kristoffer Larsson, on 2023-06-25.  
+Also reviewed earlier by Emil Sivertsson with feedback that with what time i had left implemented. Most i implemented and fixed from both reviewers but would like to do more, but again, its time and life around that decides.
