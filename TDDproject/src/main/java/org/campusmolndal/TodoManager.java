@@ -1,5 +1,6 @@
 package org.campusmolndal;
 
+import java.util.NoSuchElementException;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
@@ -71,6 +72,18 @@ public class TodoManager {
 
         System.out.println("Todo created successfully with ID " + todoId);
     }
+
+    private boolean isUserExists(int userId) {
+        Document userFilter = new Document("_id", userId);
+        return userCollection.find(userFilter).first() != null;
+    }
+
+
+    private boolean userExists(int userId) {
+        Document userFilter = new Document("_id", userId);
+        return userCollection.find(userFilter).first() != null;
+    }
+
 
 
     public void readOneTodo(Scanner scanner) {

@@ -2,7 +2,9 @@ package org.campusmolndal;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import org.mockito.ArgumentCaptor;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -43,7 +47,43 @@ class TodoManagerTest {
         when(findIterable.first()).thenReturn(new Document());
     }
 
+    @Test
+    void createTodoTest() {
+        Scanner scanner = new Scanner("Sample todo\n1,2,3\n");
+        List<Integer> userIds = Arrays.asList(1, 2, 3);
+        int todoId = 1;
 
+        Document todoDocument = new Document("_id", todoId)
+                .append("text", "Sample todo")
+                .append("done", false)
+                .append("assignedTo", userIds);
+
+        ArgumentCaptor<Document> todoDocumentCaptor = ArgumentCaptor.forClass(Document.class);
+
+        when(todoCollection.insertOne(todoDocumentCaptor.capture())).thenReturn(null);
+        when(todoCollection.find()).thenReturn(findIterable);
+        when(findIterable.sort(any())).thenReturn(findIterable);
+        when(findIterable.limit(anyInt())).thenReturn(findIterable);
+        when(userCollection.updateOne(any(Document.class), any(Document.class))).thenReturn(null);
+        when(userCollection.find(any(Document.class))).thenReturn(findIterable);
+        when(findIterable.first()).thenReturn(new Document("_id", 0)); // Mocking a non-null user document with "_id" field
+
+        todoManager.createTodo(scanner);
+
+        verify(todoCollection, times(1)).insertOne(any(Document.class));
+
+        Document capturedDocument = todoDocumentCaptor.getValue();
+        assertEquals(todoDocument.get("_id"), capturedDocument.get("_id"));
+        assertEquals(todoDocument.get("text"), capturedDocument.get("text"));
+        assertEquals(todoDocument.get("done"), capturedDocument.get("done"));
+        assertEquals(todoDocument.get("assignedTo"), capturedDocument.get("assignedTo"));
+
+        for (int userId : userIds) {
+            Document userFilter = new Document("_id", userId);
+            Document userUpdate = new Document("$push", new Document("todos", todoId));
+            verify(userCollection, times(1)).updateOne(eq(userFilter), eq(userUpdate));
+        }
+    }
 
     @Test
     void readOneTodoTest() {
@@ -191,5 +231,13 @@ class TodoManagerTest {
 
         // Restore System.in
         System.setIn(sysInBackup);
+    }
+
+    private Document mockFindResult() {
+        Document mockDocument = mock(Document.class);
+        when(mockDocument.getInteger("_id")).thenReturn(1);
+        when(mockDocument.getString("name")).thenReturn("John Doe");
+        when(mockDocument.getInteger("age")).thenReturn(25);
+        return mockDocument;
     }
 }
